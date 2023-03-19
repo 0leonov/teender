@@ -15,7 +15,7 @@
 }
 
 .auth__secondary-block {
-    @apply py-4 border border-gray-700 rounded;
+    @apply mb-6 py-4 border border-gray-700 rounded;
 }
 
 .auth__secondary-block__text {
@@ -30,10 +30,14 @@
     @apply w-full py-2 px-3 bg-gray-900 border border-gray-600 rounded appearance-none text-white leading-tight focus:outline-none focus:border-blue-400;
 }
 
+.auth__input-field-error {
+    @apply w-full py-2 px-3 bg-gray-900 border border-red-500 rounded appearance-none text-white leading-tight focus:outline-none focus:border-red-400;
+}
+
 .primary-button {
     @apply py-2 px-4 bg-green-600 text-white font-medium border border-green-500 rounded hover:bg-green-500;
 }
 
-.error-text {
-    @apply text-red-400;
+.auth__error-text {
+    @apply text-red-500 text-xs;
 }

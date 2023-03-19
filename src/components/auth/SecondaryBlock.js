@@ -2,6 +2,9 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 const SecondaryBlock = (props) => {
+  if (props?.children)
+    return <p></p>;
+
   return (
     <div className='auth__secondary-block'>
       <p className='auth__secondary-block__text'>
