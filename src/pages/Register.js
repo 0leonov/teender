@@ -1,4 +1,5 @@
 import {useForm} from 'react-hook-form';
+import axios from "axios";
 import SecondaryBlock from "../components/auth/SecondaryBlock";
 import ErrorText from "../components/auth/ErrorText";
 
@@ -6,8 +7,8 @@ const Register = () => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
-    reset();
+    axios.post('http://localhost/api/user/save', data);
+    // reset(); Мешает тестить .(
   }
 
   return (
@@ -34,7 +35,7 @@ const Register = () => {
             required: 'This is a required field',
             minLength: {
               value: 5,
-              message: 'Use 5 characters or more for password'
+              message: 'Minimum length 5 characters'
             }
           })} type='text' className={`${errors?.username ? 'auth__input-field-error' : 'auth__input-field'}`}/>
           <ErrorText>{errors?.username ? `${errors.username.message}` : ''}</ErrorText>
@@ -46,7 +47,7 @@ const Register = () => {
             required: 'This is a required field',
             minLength: {
               value: 8,
-              message: 'Use 8 characters or more for password'
+              message: 'Minimum length 8 characters'
             }
           })} type='password' className={`${errors?.password ? 'auth__input-field-error' : 'auth__input-field'}`}/>
           <ErrorText>{errors?.password ? `${errors.password.message}` : ''}</ErrorText>
