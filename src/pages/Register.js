@@ -1,13 +1,13 @@
 import {useForm} from 'react-hook-form';
+import axios from 'axios';
 import SecondaryBlock from "../components/auth/SecondaryBlock";
 import ErrorText from "../components/auth/ErrorText";
 
 const Register = () => {
-  const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
+  const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
-    reset();
+    axios.post('http://localhost/api/user/save', data)
   }
 
   return (
