@@ -1,61 +1,72 @@
 import {useForm} from 'react-hook-form';
-import axios from "axios";
-import SecondaryBlock from "../components/auth/SecondaryBlock";
-import ErrorText from "../components/auth/ErrorText";
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+import styles from '../styles/auth.module.css';
 
 const Register = () => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
 
   const onSubmit = (data) => {
-    axios.post('http://localhost/api/user/save', data);
-    // reset(); Мешает тестить .(
+    axios.post('http://localhost/api/user/save', data)
+      .then()
+      .catch();
+    reset();
   }
 
   return (
-    <div className='auth__wrapper'>
-      <h1 className='auth__header'>Sign up to Teender</h1>
+    <div className={styles.wrapper}>
+      <Link to='/home' className={styles.logo}>
+        <img src={require('../images/logo.webp')} alt='logo'/>
+      </Link>
 
-      <form onSubmit={handleSubmit(onSubmit)} className='auth__primary-block'>
+      <h1 className={styles.header}>Sign up to Teender</h1>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <p className='auth__input-field-label'>Email</p>
-          <input {...register('email', {
-              required: 'This is a required field',
-              pattern: {
-                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                message: 'Email is invalid'
-              }
-            }
-          )} type='email' className={`${errors?.email ? 'auth__input-field-error' : 'auth__input-field'}`}/>
-          <ErrorText>{errors?.email ? `${errors.email.message}` : ''}</ErrorText>
+          <p>Username</p>
+          <input className={errors?.username ? styles.inputError : styles.inputNormal} type='text'
+                 {...register('username', {
+                   required: 'This is a required field',
+                   minLength: {
+                     value: 5,
+                     message: 'Minimum length 5 characters'
+                   }
+                 })}/>
+          <p className={styles.error}>{errors?.username ? errors.username.message : null}</p>
         </div>
 
         <div>
-          <p className='auth__input-field-label'>Username</p>
-          <input {...register('username', {
-            required: 'This is a required field',
-            minLength: {
-              value: 5,
-              message: 'Minimum length 5 characters'
-            }
-          })} type='text' className={`${errors?.username ? 'auth__input-field-error' : 'auth__input-field'}`}/>
-          <ErrorText>{errors?.username ? `${errors.username.message}` : ''}</ErrorText>
+          <p>Email</p>
+          <input className={errors?.email ? styles.inputError : styles.inputNormal} type='text'
+                 {...register('email', {
+                   required: 'This is a required field',
+                   pattern: {
+                     value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                     message: 'Invalid email'
+                   }
+                 })}/>
+          <p className={styles.error}>{errors?.email ? errors.email.message : null}</p>
         </div>
 
         <div>
-          <p className='auth__input-field-label'>Password</p>
-          <input {...register('password', {
-            required: 'This is a required field',
-            minLength: {
-              value: 8,
-              message: 'Minimum length 8 characters'
-            }
-          })} type='password' className={`${errors?.password ? 'auth__input-field-error' : 'auth__input-field'}`}/>
-          <ErrorText>{errors?.password ? `${errors.password.message}` : ''}</ErrorText>
+          <p>Password</p>
+          <input className={errors?.password ? styles.inputError : styles.inputNormal} type='password'
+                 {...register('password', {
+                   required: 'This is a required field',
+                   minLength: {
+                     value: 8,
+                     message: 'Minimum length 8 characters'
+                   }
+                 })}/>
+          <p className={styles.error}>{errors?.password ? errors.password.message : null}</p>
         </div>
 
-        <button type='submit' className='primary-button'>Sign up</button>
+        <button type='submit'>Sign up</button>
       </form>
-      <SecondaryBlock text='Already have an account? ' linkText='Sign in' linkTo='/login'/>
+
+      <div className={styles.secondaryBlock}>
+        <p>Already have an account? <Link to='/login' className={styles.link}>Log in</Link>.</p>
+      </div>
     </div>
   );
 };

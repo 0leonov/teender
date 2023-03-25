@@ -1,0 +1,47 @@
+.wrapper {
+  @apply pt-24 px-2 container max-w-sm mx-auto flex flex-col gap-6 items-center;
+}
+.wrapper .logo {
+  @apply w-32;
+}
+.wrapper .logo img {
+  @apply rounded-full border-gray-200 hover:border-2;
+}
+.wrapper .header {
+  @apply text-center text-3xl text-white font-thin;
+}
+.wrapper .block, .wrapper .secondaryBlock, .wrapper form {
+  @apply w-full border border-gray-700 rounded;
+}
+.wrapper form {
+  @apply p-6 bg-gray-800 flex flex-col gap-4;
+}
+.wrapper form p {
+  @apply mb-2 text-white text-sm font-medium;
+}
+.wrapper form input, .wrapper form .inputError, .wrapper form .inputNormal {
+  @apply w-full py-2 px-3 bg-gray-900 border rounded appearance-none text-white leading-tight focus:outline-none;
+}
+.wrapper form .inputNormal {
+  @apply border-gray-700 focus:border-blue-400;
+}
+.wrapper form .inputError {
+  @apply border-red-500 focus:border-red-400;
+}
+.wrapper form .error {
+  @apply text-red-500 text-xs font-normal;
+}
+.wrapper form button {
+  @apply py-2 px-4 bg-green-600 text-white font-medium border border-green-500 rounded hover:bg-green-500;
+}
+.wrapper .secondaryBlock {
+  @apply py-4 text-center;
+}
+.wrapper .secondaryBlock p {
+  @apply text-white;
+}
+.wrapper .secondaryBlock .link {
+  @apply text-blue-400;
+}
+
+/*# sourceMappingURL=auth.module.css.map */

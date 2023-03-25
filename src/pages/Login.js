@@ -1,6 +1,7 @@
 import {useForm} from 'react-hook-form';
-import SecondaryBlock from "../components/auth/SecondaryBlock";
-import ErrorText from "../components/auth/ErrorText";
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+import styles from '../styles/auth.module.css';
 
 const Login = () => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
@@ -11,28 +12,34 @@ const Login = () => {
   }
 
   return (
-    <div className='auth__wrapper'>
-      <h1 className='auth__header'>Sign in to Teender</h1>
+    <div className={styles.wrapper}>
+      <Link to='/home' className={styles.logo}>
+        <img src={require('../images/logo.webp')} alt='logo'/>
+      </Link>
 
-      <form onSubmit={handleSubmit(onSubmit)} className='auth__primary-block'>
+      <h1 className={styles.header}>Log in to Teender</h1>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <p className='auth__input-field-label'>Username</p>
-          <input {...register('username', {required: 'This is a required field'})} type='text'
-                 className={`${errors?.username ? 'auth__input-field-error' : 'auth__input-field'}`}/>
-          <ErrorText>{errors?.username ? `${errors.username.message}` : ''}</ErrorText>
+          <p>Username</p>
+          <input className={errors?.username ? styles.inputError : styles.inputNormal} type='text'
+                 {...register('username', {required: 'This is a required field'})}/>
+          <p className={styles.error}>{errors?.username ? errors.username.message : null}</p>
         </div>
 
         <div>
-          <p className='auth__input-field-label'>Password</p>
-          <input {...register('password', {required: 'This is a required field'})} type='password'
-                 className={`${errors?.password ? 'auth__input-field-error' : 'auth__input-field'}`}/>
-          <ErrorText>{errors?.password ? `${errors.password.message}` : ''}</ErrorText>
+          <p>Password</p>
+          <input className={errors?.password ? styles.inputError : styles.inputNormal} type='password'
+                 {...register('password', {required: 'This is a required field'})}/>
+          <p className={styles.error}>{errors?.password ? errors.password.message : null}</p>
         </div>
 
-        <button type='submit' className='primary-button'>Sign in</button>
+        <button type='submit'>Log in</button>
       </form>
 
-      <SecondaryBlock text='New to Teender? ' linkText='Create an account' linkTo='/register'/>
+      <div className={styles.secondaryBlock}>
+        <p>New to Teender? <Link to='/register' className={styles.link}>Create an account</Link>.</p>
+      </div>
     </div>
   );
 };
