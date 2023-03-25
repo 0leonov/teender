@@ -1,7 +1,7 @@
 {
   "name": "teender",
   "version": "0.1.0",
-  "homepage": "https://0leonov.github.io/teender/",
+  "homepage": "https://0leonov.github.io/teender",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
