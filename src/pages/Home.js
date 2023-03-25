@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className={styles.wrapper}>
       <header>
-        <Link to={'/home'} className={styles.logo}>
+        <Link to={'/teender'} className={styles.logo}>
           <img src={require('../images/logo.webp')} alt='logo'/>
         </Link>
         <div className={styles.authButtons}>

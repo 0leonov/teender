@@ -15,7 +15,7 @@ const Register = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Link to='/home' className={styles.logo}>
+      <Link to='/teender' className={styles.logo}>
         <img src={require('../images/logo.webp')} alt='logo'/>
       </Link>
 
