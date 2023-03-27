@@ -1,16 +1,35 @@
 import {useForm} from 'react-hook-form';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles/auth.module.css';
+import { useEffect, useState } from 'react';
 
 const Register = () => {
-  const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
+  const navigate = useNavigate()
+
+  const [users, setUsers] = useState({});
+  
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  function getUsers() {
+    axios.get('http://localhost:80/api/user/').then(
+    function (response) {
+      setUsers(response.data)
+    }).catch();
+  }
+
+  const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
 
   const onSubmit = (data) => {
-    axios.post('http://localhost/api/user/save', data)
-      .then()
-      .catch();
-    reset();
+    console.log(users);
+
+    axios.post('http://localhost:80/api/user/save', data).then(
+    function (response) {
+      console.log(response.data.message)
+      navigate('/');
+    }).catch();
   }
 
   return (
