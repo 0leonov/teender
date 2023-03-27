@@ -8,6 +8,13 @@ $conn = $objDb->connect();
 
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
+    case "GET":
+        $sql = "SELECT * FROM users";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($users);
+        break;
     case "POST":
         $user = json_decode(file_get_contents('php://input'));
         $sql = "INSERT INTO users(id, email, username, password) VALUES(null, :email, :username, :password)";
@@ -16,9 +23,9 @@ switch($method) {
         $stmt->bindParam(':username', $user->username);
         $stmt->bindParam(':password', $user->password);
         if ($stmt->execute()) {
-            $response = json_encode(['status' => 1, 'massage' => 'Record created successfully.']);
+            $response = json_encode(['status' => 1, 'message' => 'Record created successfully.']);
         } else {
-            $response = json_encode(['status' => 0, 'massage' => 'Failed.']);
+            $response = json_encode(['status' => 0, 'message' => 'Something went wrong!']);
         }
         echo $response;
         break;
