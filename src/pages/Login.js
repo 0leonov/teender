@@ -13,7 +13,7 @@ const Login = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Link to='/teender' className={styles.logo}>
+      <Link to='/' className={styles.logo}>
         <img src={require('../images/logo.webp')} alt='logo'/>
       </Link>
 

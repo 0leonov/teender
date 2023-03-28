@@ -8,16 +8,19 @@
   @apply rounded-full border-gray-200 hover:border-2;
 }
 .wrapper .header {
-  @apply text-center text-3xl text-white font-thin;
+  @apply text-center text-3xl text-white font-light;
 }
-.wrapper .block, .wrapper .secondaryBlock, .wrapper form {
+.wrapper .block, .wrapper .secondaryBlock, .wrapper form, .wrapper .errorBlock {
   @apply w-full border border-gray-700 rounded;
+}
+.wrapper .errorBlock {
+  @apply py-4 border-red-600 bg-opacity-40 bg-red-500 text-white text-center;
 }
 .wrapper form {
   @apply p-6 bg-gray-800 flex flex-col gap-4;
 }
 .wrapper form p {
-  @apply mb-2 text-white text-sm font-medium;
+  @apply mb-2 text-white text-sm;
 }
 .wrapper form input, .wrapper form .inputError, .wrapper form .inputNormal {
   @apply w-full py-2 px-3 bg-gray-900 border rounded appearance-none text-white leading-tight focus:outline-none;
@@ -29,10 +32,10 @@
   @apply border-red-500 focus:border-red-400;
 }
 .wrapper form .error {
-  @apply text-red-500 text-xs font-normal;
+  @apply text-red-500 text-xs font-light;
 }
 .wrapper form button {
-  @apply py-2 px-4 bg-green-600 text-white font-medium border border-green-500 rounded hover:bg-green-500;
+  @apply py-2 px-4 bg-green-600 text-white font-semibold border border-green-500 rounded hover:bg-green-500;
 }
 .wrapper .secondaryBlock {
   @apply py-4 text-center;
@@ -42,6 +45,4 @@
 }
 .wrapper .secondaryBlock .link {
   @apply text-blue-400;
-}
-
-/*# sourceMappingURL=auth.module.css.map */
+}/*# sourceMappingURL=auth.module.css.map */

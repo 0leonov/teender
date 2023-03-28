@@ -1,44 +1,36 @@
 import {useForm} from 'react-hook-form';
 import {Link, useNavigate} from 'react-router-dom';
+import React, {useState} from 'react';
 import axios from 'axios';
 import styles from '../styles/auth.module.css';
-import { useEffect, useState } from 'react';
 
 const Register = () => {
   const navigate = useNavigate()
 
-  const [users, setUsers] = useState({});
-  
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  function getUsers() {
-    axios.get('http://localhost:80/api/user/').then(
-    function (response) {
-      setUsers(response.data)
-    }).catch();
-  }
-
   const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
 
-  const onSubmit = (data) => {
-    console.log(users);
+  const [error, setError] = useState();
 
-    axios.post('http://localhost:80/api/user/save', data).then(
-    function (response) {
-      console.log(response.data.message)
-      navigate('/');
-    }).catch();
+  const onSubmit = (data) => {
+    axios.post('http://localhost:80/api/user/save', data)
+    .then((response) => {
+      if (response.data.status === 1)
+        navigate('/');
+      else
+        setError(response.data.error);
+    })
+    .catch((error) => setError(error.error));
   }
 
   return (
     <div className={styles.wrapper}>
-      <Link to='/teender' className={styles.logo}>
+      <Link to='/' className={styles.logo}>
         <img src={require('../images/logo.webp')} alt='logo'/>
       </Link>
 
       <h1 className={styles.header}>Sign up to Teender</h1>
+
+      {typeof error != 'undefined' && <div className={styles.errorBlock}>{error}</div>}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>

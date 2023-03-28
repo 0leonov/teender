@@ -14,28 +14,11 @@
   @apply flex gap-6 justify-between;
 }
 .wrapper header .authButtons button, .wrapper header .authButtons .signup, .wrapper header .authButtons .login {
-  @apply py-2 px-4 border font-medium text-white rounded hover:border-gray-200;
+  @apply py-2 px-4 border text-white rounded hover:border-gray-200;
 }
 .wrapper header .authButtons .login {
   @apply bg-gray-800 border-gray-700 hover:bg-gray-700;
 }
 .wrapper header .authButtons .signup {
   @apply bg-green-600 border-green-500 hover:bg-green-500;
-}
-.wrapper .a {
-  @apply grid md:grid-cols-2 gap-4;
-}
-.wrapper .block {
-  @apply rounded bg-gray-800 border border-gray-700 px-4 py-4 sm:px-8 font-mono hover:border-gray-200;
-}
-.wrapper .block h2 {
-  @apply text-white text-3xl font-bold mb-4;
-}
-.wrapper .block p {
-  @apply text-white mb-2 text-justify;
-}
-.wrapper .block p span {
-  @apply font-bold;
-}
-
-/*# sourceMappingURL=Home.module.css.map */
+}/*# sourceMappingURL=Home.module.css.map */
