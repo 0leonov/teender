@@ -23,3 +23,4 @@ We kindly ask that you refrain from using this website for any purposes other th
 
  - **Artjoms Leonovs DP2-3**
  - **Fēlikss Redzdiņš DP2-3** 
+ - **Artjoms Pimanovs DP2-3** 
