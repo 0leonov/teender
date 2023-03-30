@@ -1,6 +1,5 @@
 import {useForm} from 'react-hook-form';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import styles from '../styles/auth.module.css';
 
 const Login = () => {
@@ -20,16 +19,16 @@ const Login = () => {
       <h1 className={styles.header}>Log in to Teender</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
+        <div className={styles.inputField}>
           <p>Username</p>
-          <input className={errors?.username ? styles.inputError : styles.inputNormal} type='text'
+          <input className={errors?.username ? styles.inputError : styles.inputActive} type='text'
                  {...register('username', {required: 'This is a required field'})}/>
           <p className={styles.error}>{errors?.username ? errors.username.message : null}</p>
         </div>
 
-        <div>
+        <div className={styles.inputField}>
           <p>Password</p>
-          <input className={errors?.password ? styles.inputError : styles.inputNormal} type='password'
+          <input className={errors?.password ? styles.inputError : styles.inputActive} type='password'
                  {...register('password', {required: 'This is a required field'})}/>
           <p className={styles.error}>{errors?.password ? errors.password.message : null}</p>
         </div>
@@ -37,9 +36,7 @@ const Login = () => {
         <button type='submit'>Log in</button>
       </form>
 
-      <div className={styles.secondaryBlock}>
-        <p>New to Teender? <Link to='/register' className={styles.link}>Create an account</Link>.</p>
-      </div>
+      <p>New to Teender? <Link to='/register' className={styles.link}>Create an account</Link>.</p>
     </div>
   );
 };

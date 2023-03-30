@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import React, {useState} from 'react';
 import axios from 'axios';
 import styles from '../styles/auth.module.css';
+import Input from '../components/Input';
 
 const Register = () => {
   const navigate = useNavigate()
@@ -13,18 +14,16 @@ const Register = () => {
 
   const onSubmit = (data) => {
     axios.post('http://localhost:80/api/user/save', data)
-    .then((response) => {
-      if (response.data.status === 1)
-        navigate('/');
-      else
-        setError(response.data.error);
-    })
-    .catch((error) => setError(error.error));
+      .then((response) => {
+        if (response.data.status === 1) navigate('/');
+        else setError(response.data.error);
+      })
+      .catch((error) => setError(error.message));
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Link to='/' className={styles.logo}>
+    <div className={styles.content}>
+      <Link to='/'>
         <img src={require('../images/logo.webp')} alt='logo'/>
       </Link>
 
@@ -32,52 +31,29 @@ const Register = () => {
 
       {typeof error != 'undefined' && <div className={styles.errorBlock}>{error}</div>}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <p>Username</p>
-          <input className={errors?.username ? styles.inputError : styles.inputNormal} type='text'
-                 {...register('username', {
-                   required: 'This is a required field',
-                   minLength: {
-                     value: 5,
-                     message: 'Minimum length 5 characters'
-                   }
-                 })}/>
-          <p className={styles.error}>{errors?.username ? errors.username.message : null}</p>
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)} className='p-6 bg-white flex flex-col gap-4'>
+        <Input name='username' type='text' label='Username' register={register} errors={errors.username} rules={{
+          required: 'This is a required field',
+          minLength: {value: 5, message: 'Cannot be shorter than 5 characters'},
+          maxLength: {value: 50, message: 'Cannot be longer than 50 characters'}
+        }}/>
 
-        <div>
-          <p>Email</p>
-          <input className={errors?.email ? styles.inputError : styles.inputNormal} type='text'
-                 {...register('email', {
-                   required: 'This is a required field',
-                   pattern: {
-                     value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                     message: 'Invalid email'
-                   }
-                 })}/>
-          <p className={styles.error}>{errors?.email ? errors.email.message : null}</p>
-        </div>
+        <Input name='email' type='email' label='Email' register={register} errors={errors.email} rules={{
+          required: 'This is a required field',
+          pattern: {value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, message: 'Invalid email'},
+          maxLength: {value: 50, message: 'Cannot be longer than 5 characters'}
+        }}/>
 
-        <div>
-          <p>Password</p>
-          <input className={errors?.password ? styles.inputError : styles.inputNormal} type='password'
-                 {...register('password', {
-                   required: 'This is a required field',
-                   minLength: {
-                     value: 8,
-                     message: 'Minimum length 8 characters'
-                   }
-                 })}/>
-          <p className={styles.error}>{errors?.password ? errors.password.message : null}</p>
-        </div>
+        <Input name='password' type='password' label='Password' register={register} errors={errors.password} rules={{
+          required: 'This is a required field',
+          minLength: {value: 5, message: 'Cannot be shorter than 5 characters'},
+          maxLength: {value: 50, message: 'Cannot be longer than 50 characters'}
+        }}/>
 
-        <button type='submit'>Sign up</button>
+        <button type='submit' className={styles.submitButton}>Sign up</button>
       </form>
 
-      <div className={styles.secondaryBlock}>
-        <p>Already have an account? <Link to='/login' className={styles.link}>Log in</Link>.</p>
-      </div>
+      <p>Already have an account? <Link to='/login' className={styles.link}>Log in</Link>.</p>
     </div>
   );
 };

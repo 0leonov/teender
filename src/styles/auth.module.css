@@ -1,48 +1,37 @@
-.wrapper {
-  @apply pt-24 px-2 container max-w-sm mx-auto flex flex-col gap-6 items-center;
+.content {
+  @apply pt-24 px-2 container max-w-sm mx-auto flex flex-col gap-4 items-center;
 }
-.wrapper .logo {
-  @apply w-32;
+
+img {
+  @apply rounded-full shadow w-32 text-center;
 }
-.wrapper .logo img {
-  @apply rounded-full border-gray-200 hover:border-2;
+
+.header {
+  @apply text-center text-3xl text-neutral-800;
 }
-.wrapper .header {
-  @apply text-center text-3xl text-white font-light;
+
+.block, form, .errorBlock {
+  @apply w-full border rounded;
 }
-.wrapper .block, .wrapper .secondaryBlock, .wrapper form, .wrapper .errorBlock {
-  @apply w-full border border-gray-700 rounded;
+
+.errorBlock {
+  @apply py-4 border-red-500 bg-red-50 text-white text-center;
 }
-.wrapper .errorBlock {
-  @apply py-4 border-red-600 bg-opacity-40 bg-red-500 text-white text-center;
+
+p {
+  @apply text-neutral-800;
 }
-.wrapper form {
-  @apply p-6 bg-gray-800 flex flex-col gap-4;
+
+.link {
+  @apply text-purple-600;
 }
-.wrapper form p {
-  @apply mb-2 text-white text-sm;
+
+form {
+  @apply p-6 bg-white border-purple-100 flex flex-col gap-4;
 }
-.wrapper form input, .wrapper form .inputError, .wrapper form .inputNormal {
-  @apply w-full py-2 px-3 bg-gray-900 border rounded appearance-none text-white leading-tight focus:outline-none;
+
+.submitButton {
+  @apply py-2 px-4 bg-purple-600 text-white rounded hover:bg-purple-700;
 }
-.wrapper form .inputNormal {
-  @apply border-gray-700 focus:border-blue-400;
-}
-.wrapper form .inputError {
-  @apply border-red-500 focus:border-red-400;
-}
-.wrapper form .error {
-  @apply text-red-500 text-xs font-light;
-}
-.wrapper form button {
-  @apply py-2 px-4 bg-green-600 text-white font-semibold border border-green-500 rounded hover:bg-green-500;
-}
-.wrapper .secondaryBlock {
-  @apply py-4 text-center;
-}
-.wrapper .secondaryBlock p {
-  @apply text-white;
-}
-.wrapper .secondaryBlock .link {
-  @apply text-blue-400;
-}/*# sourceMappingURL=auth.module.css.map */
+
+/*# sourceMappingURL=auth.module.css.map */

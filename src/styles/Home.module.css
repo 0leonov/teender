@@ -2,23 +2,22 @@
   @apply px-2 mx-auto w-full container;
 }
 .wrapper header {
-  @apply px-4 py-2 my-4 flex justify-between items-center rounded bg-gray-800 border border-gray-700 sm:px-8 hover:border-gray-200;
+  @apply px-4 py-2 my-4 flex justify-between items-center rounded bg-custom-800 border border-custom-700 sm:px-8;
 }
 .wrapper header .logo {
   @apply w-14;
 }
 .wrapper header .logo img {
-  @apply rounded-full border-gray-200 hover:border-2;
+  @apply rounded-full border-custom-200 hover:border-2;
 }
 .wrapper header .authButtons {
   @apply flex gap-6 justify-between;
 }
 .wrapper header .authButtons button, .wrapper header .authButtons .signup, .wrapper header .authButtons .login {
-  @apply py-2 px-4 border text-white rounded hover:border-gray-200;
+  @apply py-2 px-4 border rounded text-white;
 }
 .wrapper header .authButtons .login {
-  @apply bg-gray-800 border-gray-700 hover:bg-gray-700;
+  @apply bg-custom-800 border-custom-700 hover:bg-custom-700 hover:bg-custom-700;
 }
-.wrapper header .authButtons .signup {
-  @apply bg-green-600 border-green-500 hover:bg-green-500;
-}/*# sourceMappingURL=Home.module.css.map */
+
+/*# sourceMappingURL=Home.module.css.map */

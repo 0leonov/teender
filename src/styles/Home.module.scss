@@ -2,13 +2,13 @@
   @apply px-2 mx-auto w-full container;
 
   header {
-    @apply px-4 py-2 my-4 flex justify-between items-center rounded bg-gray-800 border border-gray-700 sm:px-8 hover:border-gray-200;
+    @apply px-4 py-2 my-4 flex justify-between items-center rounded bg-custom-800 border border-custom-700 sm:px-8;
 
     .logo {
       @apply w-14;
 
       img {
-        @apply rounded-full border-gray-200 hover:border-2;
+        @apply rounded-full border-custom-200 hover:border-2;
       }
     }
 
@@ -16,17 +16,17 @@
       @apply flex gap-6 justify-between;
 
       button {
-        @apply py-2 px-4 border text-white rounded hover:border-gray-200;
+        @apply py-2 px-4 border rounded text-white;
       }
 
       .login {
         @extend button;
-        @apply bg-gray-800 border-gray-700 hover:bg-gray-700;
+        @apply bg-custom-800 border-custom-700 hover:bg-custom-700 hover:bg-custom-700;
       }
 
       .signup {
         @extend button;
-        @apply bg-green-600 border-green-500 hover:bg-green-500;
+        // @apply bg-green-600 border-green-500 hover:bg-green-500 hover:bg-green-500;
       }
     }
   }

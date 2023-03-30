@@ -21,5 +21,6 @@ We kindly ask that you refrain from using this website for any purposes other th
 ## Created by
 
 
- - **Artjoms Leonovs DP2-3**
- - **Fēlikss Redzdiņš DP2-3** 
+ - Artjoms Leonovs DP2-3
+ - Fēlikss Regdzdiņš DP2-3
+ - Artjoms Pimanovs DP2-3

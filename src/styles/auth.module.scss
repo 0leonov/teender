@@ -1,68 +1,37 @@
-.wrapper {
-  @apply pt-24 px-2 container max-w-sm mx-auto flex flex-col gap-6 items-center;
+.content {
+  @apply pt-24 px-2 container max-w-sm mx-auto flex flex-col gap-4 items-center;
+}
 
-  .logo {
-    @apply w-32;
+img {
+  @apply rounded-full shadow w-32 text-center;
+}
 
-    img {
-      @apply rounded-full border-gray-200 hover:border-2;
-    }
-  }
+.header {
+  @apply text-center text-3xl text-neutral-800;
+}
 
-  .header {
-    @apply text-center text-3xl text-white font-light;
-  }
+.block {
+  @apply w-full border rounded;
+}
 
-  .block {
-    @apply w-full border border-gray-700 rounded;
-  }
+.errorBlock {
+  @extend .block;
+  @apply py-4 border-red-500 bg-red-50 text-white text-center;
+}
 
-  .errorBlock {
-    @extend .block;
-    @apply py-4 border-red-600 bg-opacity-40 bg-red-500 text-white text-center;
-  }
+p {
+  @apply text-neutral-800;
+}
 
-  form {
-    @extend .block;
-    @apply p-6 bg-gray-800 flex flex-col gap-4;
+.link {
+  @apply text-purple-600;
+}
 
-    p {
-      @apply mb-2 text-white text-sm;
-    }
+form {
+  @extend .block;
+  @apply p-6 bg-white border-purple-100 flex flex-col gap-4;
+}
 
-    input {
-      @apply w-full py-2 px-3 bg-gray-900 border rounded appearance-none text-white leading-tight focus:outline-none ;
-    }
-
-    .inputNormal {
-      @extend input;
-      @apply border-gray-700 focus:border-blue-400;
-    }
-
-    .inputError {
-      @extend input;
-      @apply border-red-500 focus:border-red-400;
-    }
-
-    .error {
-      @apply text-red-500 text-xs font-light;
-    }
-
-    button {
-      @apply py-2 px-4 bg-green-600 text-white font-semibold border border-green-500 rounded hover:bg-green-500;
-    }
-  }
-
-  .secondaryBlock {
-    @extend .block;
-    @apply py-4 text-center;
-
-    p {
-      @apply text-white;
-    }
-
-    .link {
-      @apply text-blue-400;
-    }
-  }
+.submitButton {
+  @apply py-2 px-4 bg-purple-600 text-white rounded hover:bg-purple-700;
 }

@@ -1,0 +1,13 @@
+input {
+  @apply w-full py-2.5 px-4 border border-neutral-500 bg-neutral-500 rounded appearance-none text-neutral-400 leading-tight focus:outline-none
+}
+
+.inputNormal {
+  @extend input;
+  @apply focus:border-purple-600 focus:bg-white;
+}
+
+.inputError {
+  @extend input;
+  @apply bg-red-50 border-red-500;
+}
