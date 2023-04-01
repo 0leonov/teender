@@ -1,16 +1,19 @@
 import {Link} from 'react-router-dom';
-import styles from '../styles/Home.module.css';
+import buttons from '../styles/buttons.module.css'
 
 const Home = () => {
   return (
-    <div className={styles.wrapper}>
-      <header>
-        <Link to={'/'} className={styles.logo}>
-          <img src={require('../images/logo.webp')} alt='logo'/>
-        </Link>
-        <div className={styles.authButtons}>
-          <Link to='/login' className={styles.login}>Log in</Link>
-          <Link to='/register' className={styles.signup}>Sign up</Link>
+    <div>
+      <header className='h-24 container mx-auto flex justify-between items-center border-b border-neutral-200 px-6'>
+        <div>
+          <Link to='/' className='flex items-center gap-3 font-bold text-2xl'>
+            <img src={require('../images/logo.webp')} alt='logo' className='h-10 rounded-full'/>
+            <h1 className='text-neutral-700 inline align-middle'>Teender</h1>
+          </Link>
+        </div>
+        <div className='flex gap-4'>
+          <Link to='/login' className={buttons.secondary}>Log in</Link>
+          <Link to='/register' className={buttons.primary}>Sign up</Link>
         </div>
       </header>
     </div>

@@ -7,39 +7,56 @@ module.exports = {
   ],
   theme: {
     extend: {},
+
+    borderRadius: {
+      'none': '0',
+      'sm': '0.125rem',
+      'xs': '0.25rem',
+      'md': '0.375rem',
+      DEFAULT: '0.5rem',
+      'full': '9999px',
+    },
+
     fontFamily: {
       inter: ['Inter', 'sans-serif'],
     },
+
     colors: {
-      white: '#ffffff',
-      custom: {
-        900: '#18122B',
-        800: '#172439',
-        700: '#172439',
-        600: '#172439',
-        500: '#172439',
-        400: '#172439',
-        300: '#172439',
-        200: '#172439'
-      },
+      custom: colors.gray,
+
+      white: colors.white,
+
+      transparent: colors.transparent,
 
       background: '#F8F7FC',
 
       neutral: {
-        100: '#6D6D8A',
+        50: '#f8f8f9',
+        100: '#F1F1F4',
+        200: '#E5E5EA',
         400: '#9292A9',
-        500: '#F1F1F4', // subtitle
-        800: '#262630', // title
+        500: '#6D6D8A',
+        700: '#373745',
+        800: '#262630',
       },
+
       purple: {
         100: '#F3EFFE',
+        300: '#c7b4fb',
         600: '#4D11F3',
         700: '#3409AC',
+        800: '#26077e',
       },
+
       red: {
         50: '#FFF7F7',
+        100: '#feecec',
         500: '#E00C0C',
       },
+
+      blue: {
+        500: '#1666F3',
+      }
     },
   },
   plugins: [],

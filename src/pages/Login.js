@@ -1,6 +1,13 @@
 import {useForm} from 'react-hook-form';
-import {Link} from 'react-router-dom';
-import styles from '../styles/auth.module.css';
+import React from "react";
+import buttons from '../styles/buttons.module.css'
+
+import Logo from "../components/Auth/Logo";
+import Header from "../components/Auth/Header";
+import Form from "../components/Auth/Form";
+import LinkBlock from "../components/Auth/LinkBlock";
+import Content from "../components/Auth/Content";
+import TextInput from "../components/TextInput";
 
 const Login = () => {
   const {register, handleSubmit, reset, formState: {errors}} = useForm({mode: 'onBlur'});
@@ -11,33 +18,21 @@ const Login = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Link to='/' className={styles.logo}>
-        <img src={require('../images/logo.webp')} alt='logo'/>
-      </Link>
+    <Content>
+      <Logo/>
 
-      <h1 className={styles.header}>Log in to Teender</h1>
+      <Header text='Log in to Teender'/>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.inputField}>
-          <p>Username</p>
-          <input className={errors?.username ? styles.inputError : styles.inputActive} type='text'
-                 {...register('username', {required: 'This is a required field'})}/>
-          <p className={styles.error}>{errors?.username ? errors.username.message : null}</p>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput name='username' type='text' label='Username' register={register} errors={errors.username} rules={{required: 'This is a required field'}}/>
 
-        <div className={styles.inputField}>
-          <p>Password</p>
-          <input className={errors?.password ? styles.inputError : styles.inputActive} type='password'
-                 {...register('password', {required: 'This is a required field'})}/>
-          <p className={styles.error}>{errors?.password ? errors.password.message : null}</p>
-        </div>
+        <TextInput name='password' type='password' label='Password' register={register} errors={errors.password} rules={{required: 'This is a required field'}}/>
 
-        <button type='submit'>Log in</button>
-      </form>
+        <button type='submit' className={buttons.primary}>Log in</button>
+      </Form>
 
-      <p>New to Teender? <Link to='/register' className={styles.link}>Create an account</Link>.</p>
-    </div>
+      <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/register'/>
+    </Content>
   );
 };
 

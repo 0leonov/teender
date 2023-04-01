@@ -1,9 +1,16 @@
 import {useForm} from 'react-hook-form';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import React, {useState} from 'react';
 import axios from 'axios';
-import styles from '../styles/auth.module.css';
-import Input from '../components/Input';
+import buttons from '../styles/buttons.module.css'
+
+import Logo from "../components/Auth/Logo";
+import Header from "../components/Auth/Header";
+import Form from "../components/Auth/Form";
+import LinkBlock from "../components/Auth/LinkBlock";
+import ErrorBlock from "../components/Auth/ErrorBlock";
+import Content from "../components/Auth/Content";
+import TextInput from "../components/TextInput";
 
 const Register = () => {
   const navigate = useNavigate()
@@ -22,39 +29,37 @@ const Register = () => {
   }
 
   return (
-    <div className={styles.content}>
-      <Link to='/'>
-        <img src={require('../images/logo.webp')} alt='logo'/>
-      </Link>
+    <Content>
+      <Logo/>
 
-      <h1 className={styles.header}>Sign up to Teender</h1>
+      <Header text='Sign up to Teender'/>
 
-      {typeof error != 'undefined' && <div className={styles.errorBlock}>{error}</div>}
+      <ErrorBlock error={error}/>
 
-      <form onSubmit={handleSubmit(onSubmit)} className='p-6 bg-white flex flex-col gap-4'>
-        <Input name='username' type='text' label='Username' register={register} errors={errors.username} rules={{
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput name='username' type='text' label='Username' register={register} errors={errors.username} rules={{
           required: 'This is a required field',
           minLength: {value: 5, message: 'Cannot be shorter than 5 characters'},
           maxLength: {value: 50, message: 'Cannot be longer than 50 characters'}
         }}/>
 
-        <Input name='email' type='email' label='Email' register={register} errors={errors.email} rules={{
+        <TextInput name='email' type='email' label='Email' register={register} errors={errors.email} rules={{
           required: 'This is a required field',
           pattern: {value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, message: 'Invalid email'},
           maxLength: {value: 50, message: 'Cannot be longer than 5 characters'}
         }}/>
 
-        <Input name='password' type='password' label='Password' register={register} errors={errors.password} rules={{
+        <TextInput name='password' type='password' label='Password' register={register} errors={errors.password} rules={{
           required: 'This is a required field',
           minLength: {value: 5, message: 'Cannot be shorter than 5 characters'},
           maxLength: {value: 50, message: 'Cannot be longer than 50 characters'}
         }}/>
 
-        <button type='submit' className={styles.submitButton}>Sign up</button>
-      </form>
+        <button type='submit' className={buttons.primary}>Sign up</button>
+      </Form>
 
-      <p>Already have an account? <Link to='/login' className={styles.link}>Log in</Link>.</p>
-    </div>
+      <LinkBlock text='Already have an account?' linkText='Log in' linkTo='/login'/>
+    </Content>
   );
 };
 
