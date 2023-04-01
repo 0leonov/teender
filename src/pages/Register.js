@@ -20,9 +20,9 @@ const Register = () => {
   const [error, setError] = useState();
 
   const onSubmit = (data) => {
-    axios.post('http://localhost:80/api/user/save', data)
+    axios.post('http://localhost:80/api/user/save.php', data)
       .then((response) => {
-        if (response.data.status === 1) navigate('/');
+        if (response.data.status === 200) navigate('/');
         else setError(response.data.error);
       })
       .catch((error) => setError(error.message));
