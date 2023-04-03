@@ -5,5 +5,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-background font-inter;
+  @apply bg-background font-inter select-none;
 }

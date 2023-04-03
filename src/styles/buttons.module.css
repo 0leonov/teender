@@ -1,5 +1,13 @@
 button, .secondary, .primary {
-  @apply px-3 py-2 rounded truncate transition border-2 focus:outline-none focus:border-purple-300 focus:ring-purple-300 focus:ring;
+  @apply rounded truncate transition border-2 focus:outline-none focus:border-purple-300 focus:ring-purple-300 focus:ring;
+}
+
+.md, .secondary, .primary {
+  @apply px-3 py-2;
+}
+
+.xl2 {
+  @apply text-2xl py-4 px-6;
 }
 
 .primary {

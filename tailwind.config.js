@@ -22,8 +22,6 @@ module.exports = {
     },
 
     colors: {
-      custom: colors.gray,
-
       white: colors.white,
 
       transparent: colors.transparent,
