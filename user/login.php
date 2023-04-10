@@ -4,6 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 
 include 'validations.php';
+include '../auth/auth.php';
 include '../DbConnect.php';
 
 $db = new DbConnect;
@@ -27,7 +28,8 @@ switch($method) {
         $stmt->execute();
 
         if(!!$stmt->fetch(PDO::FETCH_ASSOC)) {
-            $response = json_encode(['status' => 200]);
+            [$token, $expires_in] = createToken($user->username);
+            $response = json_encode(['status' => 200, 'token' => $token, 'expires_in' => $expires_in]);
         } else {
             $response = json_encode(['status' => 0, 'error' => 'Incorrect password']);
         }
