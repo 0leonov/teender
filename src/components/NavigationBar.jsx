@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { v4 } from 'uuid'
+import { v4 as uuid } from 'uuid'
 
 import Logo from './icons/Logo'
 
@@ -14,13 +14,13 @@ const NavigationBar = () => {
   const burgerOptions = [['Sign in', '/register'], ['Log in', '/login'], ...navigationOptions]
 
   const burgerItems = burgerOptions.map(option => (
-    <li key={v4()}>
+    <li key={uuid()}>
       <Link to={option[1]}>{option[0]}</Link>
     </li>
   ))
 
   const navigationItems = navigationOptions.map(option => (
-    <li key={v4()}>
+    <li key={uuid()}>
       <Link to={option[1]}>{option[0]}</Link>
     </li>
   ))
@@ -39,7 +39,7 @@ const NavigationBar = () => {
       </div>
 
       <div className='navbar-end'>
-        <Link className='btn btn-ghost mr-4 hidden sm:flex' to='/register'>
+        <Link className='btn btn-ghost mr-4 hidden sm:flex' to='/login'>
           Log in
         </Link>
 

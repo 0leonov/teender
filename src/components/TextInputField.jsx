@@ -1,4 +1,4 @@
-const TextInput = ({ name, label, rules, register, error, className, ...props }) => {
+const TextInputField = ({ name, label, rules, register, error, className, ...props }) => {
   return (
     <div>
       <label htmlFor={name} className='label-text'>
@@ -14,4 +14,4 @@ const TextInput = ({ name, label, rules, register, error, className, ...props })
   )
 }
 
-export default TextInput
+export default TextInputField

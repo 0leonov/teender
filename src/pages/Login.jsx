@@ -1,17 +1,26 @@
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import axios from 'axios'
+import { usePost } from '../hooks/usePost'
+
+import Logo from '../components/auth/Logo'
 
 import LinkBlock from '../components/auth/LinkBlock'
 import ErrorAlert from '../components/ErrorAlert'
-import LoginForm from '../components/auth/LoginForm'
-import Logo from '../components/auth/Logo'
+import TextInputField from '../components/TextInputField'
+import LoadingButton from '../components/buttons/LoadingButton'
+import PrimaryButton from '../components/buttons/PrimaryButton'
+
+import AuthContainer from '../containers/Auth'
+import FormContainer from '../containers/Form'
 
 const Login = () => {
-  const [error, setError] = useState()
-
   const navigate = useNavigate()
+
+  const successRegister = () => {
+    navigate('/')
+  }
+
+  const { isLoading, error, call } = usePost('http://localhost:80/api/user/insert.php', successRegister)
 
   const {
     register,
@@ -19,28 +28,44 @@ const Login = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' })
 
-  const onSubmit = data => {
-    axios
-      .post('http://localhost:80/api/user/login.php', data)
-      .then(response => {
-        if (response.data.status === 200) navigate('/')
-        else setError(response.data.error)
-      })
-      .catch(error => setError(error.message))
-  }
+  const textInputFieldsParameters = [
+    {
+      name: 'username',
+      type: 'text',
+      label: 'Username',
+      error: errors.username,
+      rules: {
+        required: 'This is a required field',
+      },
+    },
+
+    {
+      name: 'password',
+      type: 'password',
+      label: 'Password',
+      error: errors.password,
+      rules: {
+        required: 'This is a required field',
+      },
+    },
+  ]
+  const GetTextInputFields = () => textInputFieldsParameters.map(textInputField => <TextInputField {...textInputField} register={register} />)
 
   return (
-    <div className='max-w-sm flex min-h-screen flex-col justify-center gap-4 items-center mx-auto p-6 prose'>
+    <AuthContainer>
       <Logo />
 
       <h1 className='text-center'>Log in to Teender</h1>
 
       {error !== undefined && <ErrorAlert error={error} />}
 
-      <LoginForm onSubmit={handleSubmit(onSubmit)} register={register} errors={errors} />
+      <FormContainer onSubmit={handleSubmit(call)}>
+        {GetTextInputFields()}
+        {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Log in' />}
+      </FormContainer>
 
       <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/register' />
-    </div>
+    </AuthContainer>
   )
 }
 export default Login

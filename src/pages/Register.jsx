@@ -1,15 +1,25 @@
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import axios from 'axios'
+import { usePost } from '../hooks/usePost'
 
 import LinkBlock from '../components/auth/LinkBlock'
 import ErrorAlert from '../components/ErrorAlert'
-import RegisterForm from '../components/auth/RegisterForm'
 import Logo from '../components/auth/Logo'
+import TextInputField from '../components/TextInputField'
+import LoadingButton from '../components/buttons/LoadingButton'
+import PrimaryButton from '../components/buttons/PrimaryButton'
+
+import AuthContainer from '../containers/Auth'
+import FormContainer from '../containers/Form'
 
 const Register = () => {
   const navigate = useNavigate()
+
+  const successRegister = () => {
+    navigate('/')
+  }
+
+  const { isLoading, error, call } = usePost('http://localhost:80/api/user/insert.php', successRegister)
 
   const {
     register,
@@ -17,30 +27,78 @@ const Register = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' })
 
-  const [error, setError] = useState()
+  const textInputFieldsParameters = [
+    {
+      name: 'username',
+      type: 'text',
+      label: 'Username',
+      error: errors.username,
+      rules: {
+        required: 'This is a required field',
+        minLength: {
+          value: 5,
+          message: 'Cannot be shorter than 5 characters',
+        },
+        maxLength: {
+          value: 50,
+          message: 'Cannot be longer than 50 characters',
+        },
+      },
+    },
 
-  const onSubmit = data => {
-    axios
-      .post('http://localhost:80/api/user/save.php', data)
-      .then(response => {
-        if (response.data.status === 200) navigate('/')
-        else setError(response.data.error)
-      })
-      .catch(error => setError(error.message))
-  }
+    {
+      name: 'email',
+      type: 'email',
+      label: 'Email',
+      error: errors.email,
+      rules: {
+        required: 'This is a required field',
+        pattern: {
+          value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+          message: 'Invalid email',
+        },
+        maxLength: {
+          value: 50,
+          message: 'Cannot be longer than 5 characters',
+        },
+      },
+    },
+
+    {
+      name: 'password',
+      type: 'password',
+      label: 'Password',
+      error: errors.password,
+      rules: {
+        required: 'This is a required field',
+        minLength: {
+          value: 5,
+          message: 'Cannot be shorter than 5 characters',
+        },
+        maxLength: {
+          value: 50,
+          message: 'Cannot be longer than 50 characters',
+        },
+      },
+    },
+  ]
+  const GetTextInputFields = () => textInputFieldsParameters.map(textInputField => <TextInputField {...textInputField} register={register} />)
 
   return (
-    <div className='max-w-sm flex min-h-screen flex-col justify-center gap-4 items-center mx-auto p-6 prose'>
+    <AuthContainer>
       <Logo />
 
       <h1 className='text-center'>Sign up to Teender</h1>
 
       {error !== undefined && <ErrorAlert error={error} />}
 
-      <RegisterForm onSubmit={handleSubmit(onSubmit)} register={register} errors={errors} />
+      <FormContainer onSubmit={handleSubmit(call)}>
+        {GetTextInputFields()}
+        {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Sign up' />}
+      </FormContainer>
 
       <LinkBlock text='Already have an account?' linkText='Log in' linkTo='/login' />
-    </div>
+    </AuthContainer>
   )
 }
 
