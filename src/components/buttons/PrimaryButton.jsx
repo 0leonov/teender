@@ -1,6 +1,6 @@
-const PrimaryButton = ({ className, text, ...props }) => {
+const PrimaryButton = ({ className, text, isLoading, ...props }) => {
   return (
-    <button {...props} className={`${className} btn btn-primary`}>
+    <button {...props} className={`${className} btn btn-primary ${isLoading ? loading : ''}`}>
       {text}
     </button>
   )

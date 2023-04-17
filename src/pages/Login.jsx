@@ -1,26 +1,18 @@
-import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { usePost } from '../hooks/usePost'
+import { useRegistration } from '../hooks/useRegistration'
 
-import Logo from '../components/auth/Logo'
-
-import LinkBlock from '../components/auth/LinkBlock'
 import ErrorAlert from '../components/ErrorAlert'
-import TextInputField from '../components/TextInputField'
+import TextInput from '../components/TextInput'
 import LoadingButton from '../components/buttons/LoadingButton'
 import PrimaryButton from '../components/buttons/PrimaryButton'
-
-import AuthContainer from '../containers/Auth'
-import FormContainer from '../containers/Form'
+import HeaderText from '../components/auth/HeaderText'
+import FormContainer from '../components/auth/FormContainer'
+import AuthContainer from '../components/auth/AuthContainer'
+import SuccessAlert from '../components/SuccessAlert'
+import LinkBlock from '../components/auth/LinkBlock'
 
 const Login = () => {
-  const navigate = useNavigate()
-
-  const successRegister = () => {
-    navigate('/')
-  }
-
-  const { isLoading, error, call } = usePost('http://localhost:80/api/user/insert.php', successRegister)
+  const { isLoading, isSuccess, error, call } = useRegistration()
 
   const {
     register,
@@ -28,7 +20,7 @@ const Login = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' })
 
-  const textInputFieldsParameters = [
+  const inputProps = [
     {
       name: 'username',
       type: 'text',
@@ -49,23 +41,29 @@ const Login = () => {
       },
     },
   ]
-  const GetTextInputFields = () => textInputFieldsParameters.map(textInputField => <TextInputField {...textInputField} register={register} />)
+
+  const getInputs = () => inputProps.map(textInputField => <TextInput key={textInputField.name} {...textInputField} register={register} />)
 
   return (
-    <AuthContainer>
-      <Logo />
+    <main className='p-6 flex items-center justify-center gap-24'>
+      <div className='max-w-[360px] hidden lg:flex'>
+        <img src='/images/signup.png' alt='' />
+      </div>
 
-      <h1 className='text-center'>Log in to Teender</h1>
+      <AuthContainer>
+        <HeaderText content='Log in' />
 
-      {error !== undefined && <ErrorAlert error={error} />}
+        {!isLoading && error ? <ErrorAlert text={error} /> : isSuccess && <SuccessAlert text='Registration completed' />}
 
-      <FormContainer onSubmit={handleSubmit(call)}>
-        {GetTextInputFields()}
-        {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Log in' />}
-      </FormContainer>
+        <FormContainer onSubmit={handleSubmit(call)}>
+          {getInputs()}
+          {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Log in' />}
+        </FormContainer>
 
-      <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/register' />
-    </AuthContainer>
+        <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/register' />
+      </AuthContainer>
+    </main>
   )
 }
+
 export default Login

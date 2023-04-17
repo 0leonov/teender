@@ -1,22 +1,30 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
-import Home from './pages/Home'
+import store from './store/store'
+
+import Signup from './pages/Signup'
 import Login from './pages/Login'
-import Register from './pages/Register'
 import NotFound from './pages/NotFound'
 import AboutUs from './pages/AboutUs'
 
-function App() {
+import Root from './layouts/Root'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Root />} errorElement={<NotFound />}>
+      <Route index element={<Login />} />
+      <Route path='/signup' element={<Signup />} />
+      <Route path='/about-us' element={<AboutUs />} />
+    </Route>
+  )
+)
+
+const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/about-us' element={<AboutUs />} />
-        <Route path='/' element={<Home />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   )
 }
 
