@@ -1,24 +1,24 @@
 import { useState } from 'react'
-import { signup } from '../services/authService'
+import instance from '../http'
 
-const useRegistration = () => {
+const useAxios = (url, callback) => {
   const [isLoading, setLoading] = useState(false)
-  const [isSuccess, setSuccess] = useState(false)
   const [error, setError] = useState()
 
   const call = payload => {
     setLoading(true)
 
-    signup(payload)
+    instance
+      .post(url, payload)
       .then(response => {
         if (response.data.error) setError(response.data.error)
-        else setSuccess(true)
+        else callback(response.data)
       })
       .catch(error => setError(error.message))
       .finally(() => setLoading(false))
   }
 
-  return { isLoading, isSuccess, error, call }
+  return { isLoading, error, call }
 }
 
-export { useRegistration }
+export { useAxios }

@@ -11,14 +11,29 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.id = action.payload.id
-      state.isAuth = action.payload.isAuth
-      state.accessToken = action.payload.accessToken
-      localStorage.setItem('token', action.payload.accessToken)
+      const accessToken = action.payload
+      const base64Url = accessToken.split('.')[1]
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          })
+          .join('')
+      )
+
+      const payload = JSON.parse(jsonPayload)
+
+      state.id = payload.user_id
+      state.isAuth = true
+      localStorage.setItem('access_token', accessToken)
     },
     removeUser(state) {
-      state = initialState
-      localStorage.removeItem('token')
+      state.id = null
+      state.isAuth = false
+      state.accessToken = null
+      localStorage.removeItem('access_token')
     },
   },
 })

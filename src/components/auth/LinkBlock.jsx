@@ -8,7 +8,6 @@ const LinkBlock = ({ text, linkText, linkTo }) => {
       <Link to={linkTo} className='link link-primary'>
         {linkText}
       </Link>
-      .
     </div>
   )
 }

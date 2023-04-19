@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
-import { useRegistration } from '../hooks/useRegistration'
+import { useAxios } from '../hooks/useAxios'
+import { useNavigate } from 'react-router-dom'
 
 import ErrorAlert from '../components/ErrorAlert'
 import TextInput from '../components/TextInput'
@@ -8,10 +9,15 @@ import PrimaryButton from '../components/buttons/PrimaryButton'
 import HeaderText from '../components/auth/HeaderText'
 import FormContainer from '../components/auth/FormContainer'
 import AuthContainer from '../components/auth/AuthContainer'
-import SuccessAlert from '../components/SuccessAlert'
 
 const Signup = () => {
-  const { isLoading, isSuccess, error, call } = useRegistration()
+  const successSignup = () => {
+    navigate('/')
+  }
+
+  const { isLoading, error, call } = useAxios('user/insert.php', successSignup)
+
+  const navigate = useNavigate()
 
   const {
     register,
@@ -82,7 +88,7 @@ const Signup = () => {
       <AuthContainer>
         <HeaderText content='Sign up' />
 
-        {!isLoading && error ? <ErrorAlert text={error} /> : isSuccess && <SuccessAlert text='Registration completed' />}
+        {error && <ErrorAlert text={error} />}
 
         <FormContainer onSubmit={handleSubmit(call)}>
           {getInput()}

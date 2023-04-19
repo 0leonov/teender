@@ -1,15 +1,15 @@
-import $api from '../http'
+import instance from '../http'
 
-const login = async (username, password) => {
-  return $api.post('/login', { username, password })
+const login = async ({ username, password }) => {
+  return instance.post('user/login.php', { username, password })
 }
 
-const signup = async (username, email, password) => {
-  return $api.post('/insert', { username, email, password })
+const signup = async ({ username, email, password }) => {
+  return instance.post('user/insert.php', { username, email, password })
 }
 
 const logout = async () => {
-  return $api.post('/logout')
+  return instance.post('user/signout.php')
 }
 
 export { login, signup, logout }
