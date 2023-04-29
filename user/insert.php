@@ -1,10 +1,12 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 include 'validations.php';
-include 'get/get.php';
+include 'get/functions.php';
 include '../auth/auth.php';
 include '../DbConnect.php';
 
@@ -15,15 +17,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = json_decode(file_get_contents('php://input'));
 
     if (usernameExists($conn, $user->username)) {
-        $response = json_encode(['status' => 400, 'error' => 'Username already taken']);
+        http_response_code(400);
+        $response = json_encode(['error' => 'Username already taken']);
         echo $response;
-        die();
+        exit;
     }
 
     if (emailExists($conn, $user->email)) {
-        $response = json_encode(['status' => 400, 'error' => 'Email already taken']);
+        http_response_code(400);
+        $response = json_encode(['error' => 'Email already taken']);
         echo $response;
-        die();
+        exit;
     }
 
     $sql = "INSERT INTO users(id, email, username, password) VALUES(null, :email, :username, :password)";
@@ -33,11 +37,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':password', $user->password);
     if ($stmt->execute()) {
         $user_id = get_id_by_username($conn, $user->username);
-        [$token, $expires_in] = createAccessToken($user_id);
-        $refresh_token = createRefreshToken($user_id);
-        $response = json_encode(['status' => 200, 'accessToken' => $token, 'expires_in' => $expires_in, 'refreshToken' => $refresh_token]);
+        http_response_code(201);
     } else {
-        $response = json_encode(['status' => 404, 'error' => 'Resource not found']);
+        http_response_code(400);
+        echo json_encode(['error' => 'Resource not found']);
     }
-    echo $response;
 }

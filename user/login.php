@@ -1,10 +1,12 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 include 'validations.php';
-include 'get/get.php';
+include 'get/functions.php';
 include '../auth/auth.php';
 include '../DbConnect.php';
 
@@ -17,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!usernameExists($conn, $user->username)) {
         $response = json_encode(['status' => 400, 'error' => 'Username does not exist']);
         echo $response;
-        die();
+        exit;
     }
 
     $sql = "SELECT * FROM users u WHERE u.username=:username && u.password=:password";
@@ -30,9 +32,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user_id = get_id_by_username($conn, $user->username);
         [$token, $expires_in] = createAccessToken($user_id);
         $refresh_token = createRefreshToken($user_id);
-        $response = json_encode(['status' => 200, 'accessToken' => $token, 'expires_in' => $expires_in, 'refreshToken' => $refresh_token]);
+        http_response_code(200);
+        $response = json_encode(['accessToken' => $token, 'expires_in' => $expires_in]);
     } else {
-        $response = json_encode(['status' => 400, 'error' => 'Incorrect password']);
+        http_response_code(400);
+        $response = json_encode(['error' => 'Incorrect password']);
     }
     echo $response;
 }

@@ -7,7 +7,7 @@ function get_id_by_username($conn, $username) {
 
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
-        $id = $stmt->fetch(PDO::FETCH_ASSOC);
+        $id = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
         return $id;
     } else {
         return null;
