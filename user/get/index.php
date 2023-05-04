@@ -20,15 +20,23 @@ if ($accessToken == null) {
 
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-    if (isset($_GET['id'])) {
+    $sql = "SELECT name, description, age, sex, photo FROM users";
+
+    if (empty($_GET)) {
+        $id = getUserIdFromToken($accessToken);
+        $query = $sql . "WHERE id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+    } else if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $query = "SELECT username, name, description, age, sex, photo FROM users WHERE id = :id";
+        $query = $sql . "WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
 
     } else if (isset($_GET['username'])) {
         $username = $_GET['username'];
-        $query = "SELECT username, name, description, age, sex, photo FROM users WHERE username = :username";
+        $query = $sql . "WHERE username = :username";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':username', $username);
 

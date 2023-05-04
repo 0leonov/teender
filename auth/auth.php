@@ -107,3 +107,8 @@ function getAccessToken()
     }
     return $accessToken;
 }
+
+function getUserIdFromToken($token) {
+    $decoded = decodeToken($token);
+    return $decoded->user_id;
+}

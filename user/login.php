@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         [$token, $expires_in] = createAccessToken($user_id);
         $refresh_token = createRefreshToken($user_id);
         http_response_code(200);
-        $response = json_encode(['accessToken' => $token, 'expires_in' => $expires_in]);
+        $response = json_encode(['accessToken' => $token, 'user' => ['name' => $user->username]]);
     } else {
         http_response_code(400);
         $response = json_encode(['error' => 'Incorrect password']);

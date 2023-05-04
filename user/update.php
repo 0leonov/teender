@@ -14,8 +14,7 @@ if ($accessToken == null) {
     echo json_encode(['error' => 'Unauthorized']);
     exit;
 }
-$decoded = decodeToken($accessToken);
-$userId = $decoded->user_id;
+$userId = getUserIdFromToken($accessToken);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
