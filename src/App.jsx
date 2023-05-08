@@ -1,39 +1,44 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import NotFound from './pages/NotFound'
-import AboutUs from './pages/AboutUs'
-import Profile from './pages/Profile'
+import ProtectedRoute from '@routes/ProtectedRoute'
 
-import Root from './layouts/Root'
-import { setUser } from './store/slices/userSlice'
-import { useEffect } from 'react'
+import AuthRoot from '@layouts/AuthRoot'
+import MainRoot from '@layouts/MainRoot'
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route errorElement={<NotFound />}>
-      <Route path='/' element={<Root />}>
-        <Route index element={<Login />} />
-        <Route path='signup' element={<Signup />} />
-        <Route path='about-us' element={<AboutUs />} />
-        <Route path='profile' element={<Profile />} />
-      </Route>
-    </Route>
-  )
-)
+import Signup from '@pages/Signup'
+import Login from '@pages/Login'
+import NotFound from '@pages/NotFound'
+import Profile from '@pages/Profile'
+import Main from '@pages/Main'
+import Direct from '@pages/Direct'
+
+import { useFetchUser } from '@hooks/useFetchUser'
 
 const App = () => {
-  const dispatch = useDispatch()
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const { error, isLoaded } = useFetchUser()
 
-  useEffect(() => {
-    const token = localStorage.getItem('access_token')
+  if (!isLoaded) return
 
-    if (token) dispatch(setUser(token))
-  }, [dispatch])
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<ProtectedRoute allowed={!isAuthenticated} fallbackPath='/' element={<AuthRoot />} />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+        </Route>
 
-  return <RouterProvider router={router} />
+        <Route element={<ProtectedRoute allowed={isAuthenticated} fallbackPath='/login' element={<MainRoot />} />}>
+          <Route path='/' element={<Main />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/direct' element={<Direct />} />
+        </Route>
+
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App

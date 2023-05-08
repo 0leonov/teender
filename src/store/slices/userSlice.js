@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  id: null,
-  isAuth: false,
-  accessToken: null,
+  info: null,
+  token: null,
+  isAuthenticated: false,
 }
 
 const userSlice = createSlice({
@@ -11,29 +11,16 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      const accessToken = action.payload
-      const base64Url = accessToken.split('.')[1]
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(c => {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-          })
-          .join('')
-      )
+      const { token, info } = action.payload
 
-      const payload = JSON.parse(jsonPayload)
-
-      state.id = payload.user_id
-      state.isAuth = true
-      localStorage.setItem('access_token', accessToken)
+      state.info = info
+      state.token = token
+      state.isAuthenticated = true
     },
     removeUser(state) {
-      state.id = null
-      state.isAuth = false
-      state.accessToken = null
-      localStorage.removeItem('access_token')
+      state.info = null
+      state.token = null
+      state.isAuthenticated = false
     },
   },
 })

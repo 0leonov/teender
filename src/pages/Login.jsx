@@ -1,28 +1,27 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-import ErrorAlert from '../components/ErrorAlert'
-import TextInput from '../components/TextInput'
-import LoadingButton from '../components/buttons/LoadingButton'
-import PrimaryButton from '../components/buttons/PrimaryButton'
-import HeaderText from '../components/auth/HeaderText'
-import FormContainer from '../components/auth/FormContainer'
-import AuthContainer from '../components/auth/AuthContainer'
-import LinkBlock from '../components/auth/LinkBlock'
-import { setUser } from '../store/slices/userSlice'
-import { useDispatch } from 'react-redux'
-import { useAxios } from '../hooks/useAxios'
+import ErrorAlert from '@components/ErrorAlert'
+import TextInput from '@components/TextInput'
+import PrimaryButton from '@components/PrimaryButton'
+import HeaderText from '@components/auth/HeaderText'
+import FormContainer from '@components/auth/FormContainer'
+import AuthContainer from '@components/auth/AuthContainer'
+import LinkBlock from '@components/auth/LinkBlock'
+
+import { useFetch } from '@hooks/useFetch'
+import { useFetchUser } from '@hooks/useFetchUser'
 
 const Login = () => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
+  useFetchUser()
 
-  const successLogin = data => {
-    dispatch(setUser(data.accessToken))
-    navigate('/profile')
+  const onSuccess = data => {
+    localStorage.setItem('token', data.accessToken)
+    navigate('/')
   }
 
-  const { isLoading, error, call } = useAxios('user/login.php', successLogin)
+  const { error, isLoaded, handleCall } = useFetch('user/login.php', onSuccess)
 
   const {
     register,
@@ -65,9 +64,9 @@ const Login = () => {
 
         {error && <ErrorAlert text={error} />}
 
-        <FormContainer onSubmit={handleSubmit(call)}>
+        <FormContainer onSubmit={handleSubmit(handleCall)}>
           {getInputs()}
-          {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Log in' />}
+          <PrimaryButton text='Log in' isLoading={!isLoaded} />
         </FormContainer>
 
         <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/signup' />

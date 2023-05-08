@@ -1,6 +1,6 @@
 const PrimaryButton = ({ className, text, isLoading, ...props }) => {
   return (
-    <button {...props} className={`${className} btn btn-primary ${isLoading ? loading : ''}`}>
+    <button {...props} className={`${className} btn btn-primary ${isLoading ? 'loading' : ''}`}>
       {text}
     </button>
   )

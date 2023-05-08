@@ -1,23 +1,25 @@
 import { useForm } from 'react-hook-form'
-import { useAxios } from '../hooks/useAxios'
 import { useNavigate } from 'react-router-dom'
 
-import ErrorAlert from '../components/ErrorAlert'
-import TextInput from '../components/TextInput'
-import LoadingButton from '../components/buttons/LoadingButton'
-import PrimaryButton from '../components/buttons/PrimaryButton'
-import HeaderText from '../components/auth/HeaderText'
-import FormContainer from '../components/auth/FormContainer'
-import AuthContainer from '../components/auth/AuthContainer'
+import ErrorAlert from '@components/ErrorAlert'
+import TextInput from '@components/TextInput'
+import PrimaryButton from '@components/PrimaryButton'
+import HeaderText from '@components/auth/HeaderText'
+import FormContainer from '@components/auth/FormContainer'
+import AuthContainer from '@components/auth/AuthContainer'
+import LinkBlock from '@components/auth/LinkBlock'
+import AgreeCheckbox from '@components/auth/AgreeCheckbox'
+
+import { useFetch } from '@hooks/useFetch'
 
 const Signup = () => {
-  const successSignup = () => {
-    navigate('/')
+  const navigate = useNavigate()
+
+  const onSuccess = () => {
+    navigate('/login')
   }
 
-  const { isLoading, error, call } = useAxios('user/insert.php', successSignup)
-
-  const navigate = useNavigate()
+  const { isLoaded, error, handleCall } = useFetch('user/insert.php', onSuccess)
 
   const {
     register,
@@ -34,12 +36,16 @@ const Signup = () => {
       rules: {
         required: 'This is a required field',
         minLength: {
-          value: 5,
-          message: 'Cannot be shorter than 5 characters',
+          value: 4,
+          message: 'Cannot be shorter than 4 characters',
         },
         maxLength: {
-          value: 50,
-          message: 'Cannot be longer than 50 characters',
+          value: 16,
+          message: 'Cannot be longer than 16 characters',
+        },
+        pattern: {
+          value: /^[a-zA-Z0-9_]+/g,
+          message: 'Must contain only letters, numbers or the underscore',
         },
       },
     },
@@ -70,30 +76,47 @@ const Signup = () => {
       rules: {
         required: 'This is a required field',
         minLength: {
-          value: 5,
-          message: 'Cannot be shorter than 5 characters',
+          value: 8,
+          message: 'Cannot be shorter than 8 characters',
         },
         maxLength: {
           value: 50,
           message: 'Cannot be longer than 50 characters',
         },
+        pattern: {
+          value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+/g,
+          message: 'Must contain at least one letter and one number',
+        },
       },
     },
   ]
 
-  const getInput = () => inputProps.map(textInputField => <TextInput key={textInputField.name} {...textInputField} register={register} />)
-
   return (
-    <main className='p-6 flex flex-col items-center justify-center gap-4'>
+    <main className='p-6 flex place-items-center justify-center gap-24'>
+      <div className='py-6 px-4 max-w-[360px] flex-col gap-4 hidden lg:flex'>
+        <h1 className='font-bold text-2xl'>Teender</h1>
+        <p>
+          This is a dating site, where finding your perfect match is our top priority! Our platform is designed to make it easy and fun for singles to connect and potentially find a long-term partner.
+        </p>
+        <b>Join Teender today and start your journey towards finding love! 💕</b>
+      </div>
+
       <AuthContainer>
         <HeaderText content='Sign up' />
 
         {error && <ErrorAlert text={error} />}
 
-        <FormContainer onSubmit={handleSubmit(call)}>
-          {getInput()}
-          {isLoading ? <LoadingButton className='btn-primary' /> : <PrimaryButton text='Sign up' />}
+        <FormContainer onSubmit={handleSubmit(handleCall)}>
+          {inputProps.map(textInputField => (
+            <TextInput key={textInputField.name} {...textInputField} register={register} />
+          ))}
+
+          <AgreeCheckbox register={register} name='Terms' rules={{ required: true }} error={errors.Terms} />
+
+          <PrimaryButton text='Sign up' isLoading={!isLoaded} />
         </FormContainer>
+
+        <LinkBlock text='Already have an account?' linkText='Log in' linkTo='/login' />
       </AuthContainer>
     </main>
   )
