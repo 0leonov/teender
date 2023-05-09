@@ -12,6 +12,7 @@ import NotFound from '@pages/NotFound'
 import Profile from '@pages/Profile'
 import Main from '@pages/Main'
 import Direct from '@pages/Direct'
+import ProfileEdit from '@pages/ProfileEdit'
 
 import { useFetchUser } from '@hooks/useFetchUser'
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route element={<ProtectedRoute allowed={isAuthenticated} fallbackPath='/login' element={<MainRoot />} />}>
           <Route path='/' element={<Main />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/direct' element={<Direct />} />
         </Route>
 

@@ -51,8 +51,6 @@ const Login = () => {
     },
   ]
 
-  const getInputs = () => inputProps.map(textInputField => <TextInput key={textInputField.name} {...textInputField} register={register} />)
-
   return (
     <main className='p-6 flex items-center justify-center gap-24'>
       <div className='max-w-[360px] hidden lg:flex'>
@@ -65,7 +63,10 @@ const Login = () => {
         {error && <ErrorAlert text={error} />}
 
         <FormContainer onSubmit={handleSubmit(handleCall)}>
-          {getInputs()}
+          {inputProps.map(textInputField => (
+            <TextInput key={textInputField.name} {...textInputField} register={register} />
+            ))}
+
           <PrimaryButton text='Log in' isLoading={!isLoaded} />
         </FormContainer>
 
