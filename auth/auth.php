@@ -1,14 +1,15 @@
 <?php
 
-include '../vendor/autoload.php';
-include '../config.php';
+include 'C:\laragon\www\api\vendor\autoload.php';
+include 'C:\laragon\www\api\config.php';
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 function createAccessToken($userId): array
 {
     $issued_at = time();
-    $expires_at = $issued_at + 600; // Токен истекает через 10 минут
+    $expires_at = $issued_at + 60 * 60; // Токен истекает через 60 минут
     $payload = array(
         "user_id" => $userId,
         "iat" => $issued_at,
@@ -38,9 +39,14 @@ function refreshAccessToken($refreshToken): ?array
     }
 }
 
-function decodeToken($token): stdClass
+function decodeToken($token)
 {
-    return JWT::decode($token, Config::$JWT_key, 'HS512');
+    try {
+        return JWT::decode($token, new Key(Config::$JWT_key, 'HS512'));
+    }
+    catch (Firebase\JWT\ExpiredException $e) {
+        return null;
+    }
 }
 
 function createRefreshToken($userId): string
@@ -95,8 +101,18 @@ function getAccessToken()
     if (!preg_match('/Bearer\s(\S+)/', $authorizationHeader, $matches)) {
         return null;
     }
+
     $accessToken = substr($matches[0], 7, null) ;
     $decoded = decodeToken($accessToken);
+
+    if ($decoded == null)
+    {
+        $accessToken = refreshAccessToken($_COOKIE['refresh_token']);
+        if ($accessToken == null) {
+            return null;
+        }
+    }
+
     $expires_at = $decoded->exp;
     if ($expires_at < time())
     {
@@ -105,6 +121,7 @@ function getAccessToken()
             return null;
         }
     }
+    
     return $accessToken;
 }
 

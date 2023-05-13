@@ -17,14 +17,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = json_decode(file_get_contents('php://input'));
 
     if (usernameExists($conn, $user->username)) {
-        http_response_code(400);
         $response = json_encode(['error' => 'Username already taken']);
         echo $response;
         exit;
     }
 
     if (emailExists($conn, $user->email)) {
-        http_response_code(400);
         $response = json_encode(['error' => 'Email already taken']);
         echo $response;
         exit;
@@ -37,9 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bindParam(':password', $user->password);
     if ($stmt->execute()) {
         $user_id = get_id_by_username($conn, $user->username);
-        http_response_code(201);
     } else {
-        http_response_code(400);
         echo json_encode(['error' => 'Resource not found']);
     }
 }
