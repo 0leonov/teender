@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import useReducer from '@slices/userSlice'
+import userReducer from '@slices/userSlice'
+import themeReducer from '@slices/themeSlice'
 
 const store = configureStore({
-  reducer: { user: useReducer },
+  reducer: { user: userReducer, theme: themeReducer },
 })
 
 export default store

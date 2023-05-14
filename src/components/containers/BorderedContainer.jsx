@@ -1,4 +1,4 @@
-const FormContainer = ({ children, ...props }) => {
+const BorderedContainer = ({ children, ...props }) => {
   return (
     <form className='flex flex-col gap-4 border rounded-box py-6 px-4' {...props}>
       {children}
@@ -6,4 +6,4 @@ const FormContainer = ({ children, ...props }) => {
   )
 }
 
-export default FormContainer
+export default BorderedContainer

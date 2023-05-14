@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import ProtectedRoute from '@routes/ProtectedRoute'
 
@@ -16,11 +16,20 @@ import ProfileEdit from '@pages/ProfileEdit'
 
 import { useFetchUser } from '@hooks/useFetchUser'
 
+import { setTheme } from '@slices/themeSlice'
+
 const App = () => {
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+
+  const dispatch = useDispatch()
+
   const { error, isLoaded } = useFetchUser()
 
+  if (error) return error
   if (!isLoaded) return
+
+  const savedTheme = localStorage.getItem('theme') || 'light'
+  dispatch(setTheme(savedTheme))
 
   return (
     <BrowserRouter>

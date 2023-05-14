@@ -1,10 +1,13 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { useFetchUser } from '@hooks/useFetchUser'
+
 import Settings from '@components/icons/Settings'
 import Avatar from '@components/Avatar'
 import AvatarPlaceholder from '@components/AvatarPlaceholder'
-import { useFetchUser } from '@hooks/useFetchUser'
+import CommonContainer from '@components/containers/CommonContainer'
+import SettingsModal from '@components/SettingsModal'
 
 const Profile = () => {
   const { name, age, photo, description } = useSelector(state => state.user.info)
@@ -16,16 +19,19 @@ const Profile = () => {
   if (!isLoaded) return
 
   return (
-    <main className='max-w-[640px] w-full mx-auto'>
-      <header className='h-32 px-4 flex justify-between items-end box-content my-8 py-8 border-b'>
-        <div className='w-32 h-32 rounded-full border-2 border-base-content avatar'>
+    <CommonContainer className='gap-8'>
+      <header className='h-32 px-4 flex justify-between items-end box-content pb-8 border-b'>
+        <div className='w-32 h-32'>
           {photo ? <Avatar src={photo} /> : <AvatarPlaceholder placeholder='A' className='text-4xl' />}
         </div>
 
         <div className='flex gap-2'>
-          <button className='btn btn-square btn-ghost'>
+          <label className='btn btn-square btn-ghost' htmlFor='settings-modal'>
             <Settings className='w-6 h-6' />
-          </button>
+          </label>
+
+          <input type='checkbox' id='settings-modal' className='modal-toggle' />
+          <SettingsModal />
 
           <Link to='edit' className='btn btn-primary'>
             Edit profile
@@ -46,7 +52,7 @@ const Profile = () => {
           <p className='break-words'>{description}</p>
         </section>
       </div>
-    </main>
+    </CommonContainer>
   )
 }
 

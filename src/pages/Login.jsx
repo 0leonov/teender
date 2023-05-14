@@ -5,8 +5,8 @@ import ErrorAlert from '@components/ErrorAlert'
 import TextInput from '@components/TextInput'
 import PrimaryButton from '@components/PrimaryButton'
 import HeaderText from '@components/auth/HeaderText'
-import FormContainer from '@components/auth/FormContainer'
-import AuthContainer from '@components/auth/AuthContainer'
+import BorderedContainer from '@components/containers/BorderedContainer'
+import CommonContainer from '@components/containers/CommonContainer'
 import LinkBlock from '@components/auth/LinkBlock'
 
 import { useFetch } from '@hooks/useFetch'
@@ -57,21 +57,21 @@ const Login = () => {
         <img src='/images/signup.png' alt='/images/signup.png' />
       </div>
 
-      <AuthContainer>
+      <CommonContainer className='max-w-[400px]'>
         <HeaderText content='Log in' />
 
         {error && <ErrorAlert text={error} />}
 
-        <FormContainer onSubmit={handleSubmit(handleCall)}>
+        <BorderedContainer onSubmit={handleSubmit(handleCall)}>
           {inputProps.map(textInputField => (
             <TextInput key={textInputField.name} {...textInputField} register={register} />
-            ))}
+          ))}
 
           <PrimaryButton text='Log in' isLoading={!isLoaded} />
-        </FormContainer>
+        </BorderedContainer>
 
         <LinkBlock text='New to Teender?' linkText='Create an account' linkTo='/signup' />
-      </AuthContainer>
+      </CommonContainer>
     </main>
   )
 }

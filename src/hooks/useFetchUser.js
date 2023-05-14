@@ -18,27 +18,14 @@ export const useFetchUser = () => {
       return
     }
 
-    dispatch(
-      setUser({
-        token,
-        info: {
-          name: 'Вика',
-          age: '16',
-          photo: 'https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-          description: 'хочется себе мальчика косплеера (возможно не в подвал), да и чтобы за геншин шарил и подобное.',
-        },
-      })
-    )
-    setLoaded(true)
-    /*
     instance
       .get('user/get/')
       .then(response => {
         dispatch(setUser({ token, info: response.data }))
+        setLoaded(true)
       })
       .catch(error => setError(error.message))
       .finally(() => setLoaded(true))
-      */
   }, [token])
 
   return { error, isLoaded }

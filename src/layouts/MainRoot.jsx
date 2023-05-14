@@ -12,7 +12,10 @@ const MainRoot = () => {
   return (
     <div className='min-h-screen flex grow'>
       <Navigation />
-      <Outlet />
+
+      <div className='py-16 mx-auto max-w-lg w-full'>
+        <Outlet />
+      </div>
     </div>
   )
 }

@@ -5,8 +5,8 @@ import ErrorAlert from '@components/ErrorAlert'
 import TextInput from '@components/TextInput'
 import PrimaryButton from '@components/PrimaryButton'
 import HeaderText from '@components/auth/HeaderText'
-import FormContainer from '@components/auth/FormContainer'
-import AuthContainer from '@components/auth/AuthContainer'
+import BorderedContainer from '@components/containers/BorderedContainer'
+import CommonContainer from '@components/containers/CommonContainer'
 import LinkBlock from '@components/auth/LinkBlock'
 import AgreeCheckbox from '@components/auth/AgreeCheckbox'
 
@@ -63,7 +63,7 @@ const Signup = () => {
         },
         maxLength: {
           value: 50,
-          message: 'Cannot be longer than 5 characters',
+          message: 'Cannot be longer than 50 characters',
         },
       },
     },
@@ -75,17 +75,9 @@ const Signup = () => {
       error: errors.password,
       rules: {
         required: 'This is a required field',
-        minLength: {
-          value: 8,
-          message: 'Cannot be shorter than 8 characters',
-        },
-        maxLength: {
-          value: 50,
-          message: 'Cannot be longer than 50 characters',
-        },
         pattern: {
-          value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+/g,
-          message: 'Must contain at least one letter and one number',
+          value: /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,32}$/g,
+          message: 'Must contain at least 1 lowercase letter, 1 digit, and be 8 - 32 long.',
         },
       },
     },
@@ -96,17 +88,18 @@ const Signup = () => {
       <div className='py-6 px-4 max-w-[360px] flex-col gap-4 hidden lg:flex'>
         <h1 className='font-bold text-2xl'>Teender</h1>
         <p>
-          This is a dating site, where finding your perfect match is our top priority! Our platform is designed to make it easy and fun for singles to connect and potentially find a long-term partner.
+          This is a dating site, where finding your perfect match is our top priority! Our platform is designed to make
+          it easy and fun for singles to connect and potentially find a long-term partner.
         </p>
         <b>Join Teender today and start your journey towards finding love! 💕</b>
       </div>
 
-      <AuthContainer>
+      <CommonContainer className='max-w-[400px]'>
         <HeaderText content='Sign up' />
 
         {error && <ErrorAlert text={error} />}
 
-        <FormContainer onSubmit={handleSubmit(handleCall)}>
+        <BorderedContainer onSubmit={handleSubmit(handleCall)}>
           {inputProps.map(textInputField => (
             <TextInput key={textInputField.name} {...textInputField} register={register} />
           ))}
@@ -114,10 +107,10 @@ const Signup = () => {
           <AgreeCheckbox register={register} name='Terms' rules={{ required: true }} error={errors.Terms} />
 
           <PrimaryButton text='Sign up' isLoading={!isLoaded} />
-        </FormContainer>
+        </BorderedContainer>
 
         <LinkBlock text='Already have an account?' linkText='Log in' linkTo='/login' />
-      </AuthContainer>
+      </CommonContainer>
     </main>
   )
 }

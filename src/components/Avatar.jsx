@@ -1,9 +1,7 @@
 const Avatar = ({ src, className, alt }) => {
   return (
-    <div className='avatar'>
-      <div className={`bg-primary rounded-full ${className}`}>
-        <img src={src} alt={alt} />
-      </div>
+    <div className={`avatar rounded-full border-2 border-base-content bg-primary ${className}`}>
+      <img className='rounded-full' src={src} alt={alt} />
     </div>
   )
 }
