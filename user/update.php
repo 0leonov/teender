@@ -30,61 +30,43 @@ if ($accessToken == null) {
 $userId = getUserIdFromToken($accessToken);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = json_decode(file_get_contents('php://input'));
-    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-        echo json_encode(['error' => 'Error while decoding JSON: ' . json_last_error_msg()]);
-    }
 
     $sql = 'UPDATE users SET';
-    if (isset($data->name) && !empty($data->name))
+    if (!empty($_POST['name']))
     {
         $query = 'UPDATE users SET name = :name WHERE id = :id';
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':name', $data->name);
+        $stmt->bindParam(':name', $_POST['name']);
         $stmt->bindParam(':id', $userId);
         $stmt->execute();
     }
-    if (isset($data->description) && !empty($data->description))
+    if (!empty($_POST['description']))
     {
         $query = $sql . " description = :description WHERE id = :id";
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':description', $data->description);
+        $stmt->bindParam(':description', $_POST['description']);
         $stmt->bindParam(':id', $userId);
         $stmt->execute();
     }
-    if (isset($data->age) && !empty($data->age))
+    if (!empty($_POST['age']))
     {
         $query = $sql . " age = :age WHERE id = :id";
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':age', (int)$data->age);
+        $age = (int)$_POST['age'];
+        $stmt->bindParam(':age', $age);
         $stmt->bindParam(':id', $userId);
         $stmt->execute();
     }
-    if (isset($data->sex) && !empty($data->sex))
+    if (!empty($_POST['sex']))
     {
         $query = $sql . " sex = :sex WHERE id = :id";
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':sex', $data->sex);
+        $stmt->bindParam(':sex', $_POST['sex']);
         $stmt->bindParam(':id', $userId);
         $stmt->execute();
     }
-    /*
-    if (isset($data->photo) && !empty($data->photo))
+    if (!empty($_POST['photo']))
     {
-        $query = $sql . " photo = :photo WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':photo', $data->photo);
-        $stmt->bindParam(':id', $userId);
-        $stmt->execute();
     }
-    if (isset($data->password) && !empty($data->password))
-    {
-        $query = $sql . " password = :password WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':password', $data->password);
-        $stmt->bindParam(':id', $userId);
-        $stmt->execute();
-    }
-    */
     echo 'All good';
 }

@@ -29,7 +29,7 @@ if ($accessToken == null) {
 
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-    $sql = "SELECT name, description, age, sex, photo FROM users";
+    $sql = "SELECT username, name, description, age, sex, photo FROM users";
 
     if (empty($_GET)) 
     {
@@ -38,25 +38,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
 
-    } 
-    else if (isset($_GET['id'])) 
-    {
-        $id = $_GET['id'];
-        $query = $sql . " WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-
-    } 
-    else if (isset($_GET['username'])) 
-    {
-        $username = $_GET['username'];
-        $query = $sql . " WHERE username = :username";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':username', $username);
-
     }
     else {
-        echo json_encode(array('error' => 'ID or username is not specified'));
+        echo json_encode(array('error' => 'Bad request'));
         exit;
     }
 

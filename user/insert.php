@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 include 'validations.php';
-include 'get/functions.php';
+include 'functions.php';
 include '../auth/auth.php';
 include '../DbConnect.php';
 
