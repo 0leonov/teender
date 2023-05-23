@@ -1,7 +1,7 @@
 <?php
 
-include 'C:\wamp\www\api\vendor\autoload.php';
-include 'C:\wamp\www\api\config.php';
+include '..\vendor\autoload.php';
+include '..\config.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

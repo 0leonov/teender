@@ -1,7 +1,7 @@
 <?php
 
-include '../DbConnect.php';
-include '../auth/auth.php';
+include '../../DbConnect.php';
+include '../../auth/auth.php';
 
 $allowedOrigins = array(
     'http://localhost:5173',
@@ -50,14 +50,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (!empty($_POST['age']))
     {
+        $age = (int)$_POST['age'];
+        if ($age < 14 or $age > 100) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid age']);
+        }
         $query = $sql . " age = :age WHERE id = :id";
         $stmt = $conn->prepare($query);
-        $age = (int)$_POST['age'];
         $stmt->bindParam(':age', $age);
         $stmt->bindParam(':id', $userId);
         $stmt->execute();
     }
-    if (!empty($_POST['sex']))
+    if (!empty($_POST['sex'] and $_POST['sex'] != 'null' ))
     {
         $query = $sql . " sex = :sex WHERE id = :id";
         $stmt = $conn->prepare($query);
@@ -67,6 +71,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (!empty($_POST['photo']))
     {
+        if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES["photo"]["tmp_name"];
+            $imageData = file_get_contents($fileTmpPath);
+            if (!savePhoto($imageData)) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Error inserting photo']);
+            }
+            unlink($fileTmpPath);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'File download error']);
+        }
     }
-    echo 'All good';
+    echo 'OK';
 }

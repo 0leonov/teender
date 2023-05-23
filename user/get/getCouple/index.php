@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
         if($woman) {
             echo json_encode($woman);
         } else {
-            echo 'No woman for you.)';
+            echo 'Woman not found';
         }
     }
     else {
@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
         if($man) {
             echo json_encode($man);
         } else {
-            echo 'No man for you.)';
+            echo 'Man not found';
         }
     }
 }
