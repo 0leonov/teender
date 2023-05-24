@@ -10,7 +10,7 @@ import CommonContainer from '@components/containers/CommonContainer'
 import LinkBlock from '@components/auth/LinkBlock'
 import AgreeCheckbox from '@components/auth/AgreeCheckbox'
 
-import { useFetch } from '@hooks/useFetch'
+import { usePost } from '@hooks/usePost'
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ const Signup = () => {
     navigate('/login')
   }
 
-  const { isLoaded, error, handleCall } = useFetch('user/insert.php', onSuccess)
+  const { isLoaded, error, handleCall } = usePost('user/insert.php', onSuccess)
 
   const {
     register,

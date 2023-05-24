@@ -20,4 +20,19 @@ instance.interceptors.request.use(
   }
 )
 
+
+// instance.interceptors.response.use(
+//   (response) => {
+//     if (response.data.error) {
+//       axios.post(API_URL + '123')
+//         .then(data => {
+//           // error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+//           // return axios.request(error.config);
+//         })
+//     }
+
+//     return response;
+//   }
+// );
+
 export default instance

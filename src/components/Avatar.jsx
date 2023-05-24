@@ -1,7 +1,7 @@
-const Avatar = ({ src, className, alt }) => {
+const Avatar = ({ url }) => {
   return (
-    <div className={`avatar rounded-full border-2 border-base-content bg-primary ${className}`}>
-      <img className='rounded-full' src={src} alt={alt} />
+    <div className={'w-32 h-32 avatar rounded-full overflow-hidden'}>
+      <img src={url} alt='Avatar' />
     </div>
   )
 }

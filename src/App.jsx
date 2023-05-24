@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 import ProtectedRoute from '@routes/ProtectedRoute'
 
@@ -13,6 +14,7 @@ import Profile from '@pages/Profile'
 import Main from '@pages/Main'
 import Direct from '@pages/Direct'
 import ProfileEdit from '@pages/ProfileEdit'
+import Loading from '@pages/Loading'
 
 import { useFetchUser } from '@hooks/useFetchUser'
 
@@ -23,13 +25,15 @@ const App = () => {
 
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(setTheme(localStorage.getItem('theme') || 'light'))
+  }, [dispatch])
+
   const { error, isLoaded } = useFetchUser()
 
   if (error) return error
-  if (!isLoaded) return
-
-  const savedTheme = localStorage.getItem('theme') || 'light'
-  dispatch(setTheme(savedTheme))
+  
+  if (!isLoaded) return <Loading />
 
   return (
     <BrowserRouter>

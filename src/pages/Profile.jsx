@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useFetchUser } from '@hooks/useFetchUser'
 
@@ -10,7 +10,7 @@ import CommonContainer from '@components/containers/CommonContainer'
 import SettingsModal from '@components/SettingsModal'
 
 const Profile = () => {
-  const { name, age, photo, description } = useSelector(state => state.user.info)
+  const { username, name, age, photo, description } = useSelector(state => state.user.info)
 
   const { error, isLoaded } = useFetchUser()
 
@@ -21,9 +21,7 @@ const Profile = () => {
   return (
     <CommonContainer className='gap-8'>
       <header className='h-32 px-4 flex justify-between items-end box-content pb-8 border-b'>
-        <div className='w-32 h-32'>
-          {photo ? <Avatar src={photo} /> : <AvatarPlaceholder placeholder='A' className='text-4xl' />}
-        </div>
+        {photo ? <Avatar url={photo} /> : <AvatarPlaceholder placeholder={username[0]} />}
 
         <div className='flex gap-2'>
           <label className='btn btn-square btn-ghost' htmlFor='settings-modal'>
@@ -31,6 +29,7 @@ const Profile = () => {
           </label>
 
           <input type='checkbox' id='settings-modal' className='modal-toggle' />
+
           <SettingsModal />
 
           <Link to='edit' className='btn btn-primary'>

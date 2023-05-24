@@ -9,7 +9,7 @@ import BorderedContainer from '@components/containers/BorderedContainer'
 import CommonContainer from '@components/containers/CommonContainer'
 import LinkBlock from '@components/auth/LinkBlock'
 
-import { useFetch } from '@hooks/useFetch'
+import { usePost } from '@hooks/usePost'
 import { useFetchUser } from '@hooks/useFetchUser'
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
     navigate('/')
   }
 
-  const { error, isLoaded, handleCall } = useFetch('user/login.php', onSuccess)
+  const { error, isLoaded, handleCall } = usePost('user/login.php', onSuccess)
 
   const {
     register,

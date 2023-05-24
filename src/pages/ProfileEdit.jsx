@@ -1,14 +1,20 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import BorderedContainer from '@components/containers/BorderedContainer'
 import CommonContainer from '@components/containers/CommonContainer'
 
 import instance from '@http'
+import TextInput from '@components/TextInput'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 const ProfileEdit = () => {
-  const { handleSubmit, register } = useForm()
-  const onSubmit = data => {
+  const { username, name, age, photo, description, sex } = useSelector(state => state.user.info)
 
+  const navigate = useNavigate()
+
+  const onSubmit = data => {
     const formData = new FormData()
     formData.append('name', data.name)
     formData.append('age', data.age)
@@ -16,46 +22,82 @@ const ProfileEdit = () => {
     formData.append('sex', data.sex)
     formData.append('photo', data.photo[0])
 
-    instance.post('user/update.php', formData)
+    instance.post('user/update/', formData)
+      .then(() => {
+        navigate('/profile');
+      })
+      .catch(error => {
+        console.error(error)
+      });
   }
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' })
+
+  useEffect(() => {
+    setValue('sex', sex)
+  }, [setValue])
 
   return (
     <CommonContainer>
       <h1 className='text-2xl font-bold'>Edit profile</h1>
+
       <BorderedContainer onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor='name' className='label-text font-bold'>Name</label>
-          <input id='name' {...register('name')} type='text' className='input input-bordered w-full text-sm'
-                 placeholder='Write your name' />
+        <TextInput
+          name='name'
+          type='text'
+          label='Name'
+          placeholder='Write your name'
+          defaultValue={name}
+          error={errors.name}
+          register={register}
+          rules={{ required: 'Сannot be empty' }}
+        />
+
+        <TextInput
+          name='age'
+          type='number'
+          label='Age'
+          placeholder='Write your age'
+          defaultValue={age}
+          error={errors.age}
+          register={register}
+          rules={{ required: 'Сannot be empty' }}
+        />
+
+        <div className='form-control'>
+          <label htmlFor='bio' className='label label-text'>Bio</label>
+
+          <textarea
+            id='bio'
+            placeholder='Add a few words about yourself'
+            className='textarea textarea-bordered w-full'
+            defaultValue={description}
+            {...register('description')}
+          />
         </div>
 
         <div>
-          <label htmlFor='age' className='label-text font-bold'>Age</label>
-          <input id='age' {...register('age')} type='number' className='input input-bordered w-full text-sm'
-                 placeholder='Write your age' />
-        </div>
+          <span className='text-sm'>Sex</span>
 
-        <div>
-          <label htmlFor='bio' className='label-text font-bold'>Bio</label>
-          <textarea id='bio' {...register('description')} className='textarea textarea-bordered w-full'
-                    placeholder='Add a few words about yourself' />
-        </div>
+          <div className='form-control gap-2'>
+            <label className='flex items-center gap-2 cursor-pointer'>
+              <input {...register('sex')} value='male' type='radio' name='sex'
+                     className='radio radio-sm checked:bg-blue-400' />
 
-        <div>
-          <span className='text-sm font-bold'>Sex</span>
+              <span className='label-text cursor-pointer'>Male</span>
+            </label>
 
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-center gap-2'>
-              <input {...register('sex')} value='male' id='male' type='radio' name='sex'
-                     className='radio checked:bg-blue-400' />
-              <label htmlFor='male' className='label-text cursor-pointer'>Male</label>
-            </div>
-
-            <div className='flex items-center gap-2'>
+            <label className='flex items-center gap-2 cursor-pointer'>
               <input {...register('sex')} value='female' id='female' type='radio' name='sex'
-                     className='radio checked:bg-rose-400' />
-              <label htmlFor='female' className='label-text cursor-pointer'>Female</label>
-            </div>
+                     className='radio radio-sm checked:bg-rose-400' />
+
+              <span className='label-text cursor-pointer'>Female</span>
+            </label>
           </div>
         </div>
 

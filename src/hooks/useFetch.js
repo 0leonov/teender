@@ -1,27 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import instance from '@http/index'
 
-export const useFetch = (url, onSuccess) => {
+export const useFetch = (url) => {
+  const [data, setData] = useState(null)
+  const [isLoaded, setLoaded] = useState(false)
   const [error, setError] = useState(null)
-  const [isLoaded, setLoaded] = useState(true)
+  const [reload, setReload] = useState(true)
 
-  const handleCall = payload => {
+  useEffect(() => {
     setLoaded(false)
 
-    instance
-      .post(url, payload)
+    instance.get(url)
       .then(response => {
         if (response.data.error) {
           setError(response.data.error)
           return
         }
 
-        onSuccess(response.data)
+        setData(response.data)
       })
       .catch(error => setError(error.message))
       .finally(() => setLoaded(true))
+  }, [url, reload])
+
+  const refresh = () => {
+    setReload(!reload)
   }
 
-  return { error, isLoaded, handleCall }
+  return { data, isLoaded, error, refresh }
 }

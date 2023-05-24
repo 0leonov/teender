@@ -5,13 +5,12 @@ import Home from '@components/icons/Home'
 import Direct from '@components/icons/Direct'
 import Profile from '@components/icons/Profile'
 import LogOut from '@components/icons/LogOut'
+import Logo from '@components/icons//Logo'
 
 import { removeUser } from '@slices/userSlice'
 
 const Navigation = () => {
   const dispatch = useDispatch()
-
-  // const user = useSelector(state => state.user.info)
 
   const handleLogOut = () => {
     dispatch(removeUser())
@@ -49,6 +48,13 @@ const Navigation = () => {
 
       <div className='px-2 py-6 border-r flex-col justify-between hidden sm:flex lg:px-6 lg:w-64'>
         <div className='flex flex-col gap-2'>
+          <Link className='btn btn-ghost flex gap-2 lg:justify-start'>
+            <Logo className='w-6 h-6' />
+            <p className='hidden lg:flex'><span className='text-primary font-bold'>Teen</span>der</p>
+          </Link>
+
+          <div className='divider my-0' />
+
           {links.map(link => (
             <Link to={link.to} className='btn btn-ghost gap-2 flex lg:justify-start' key={link.text}>
               <div className='w-6 h-6'>{link.icon}</div>
