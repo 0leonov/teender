@@ -1,30 +1,33 @@
 <?php
 
+require_once 'savePhoto.php';
+
 function update($conn, $accessToken, $data)
 {
+
     $userId = getUserIdFromToken($accessToken);
 
-    if (!empty($data['name']))
+    if (isset($data['name']))
     {
         update_name($conn, $userId, $data['name']);
     }
 
-    if (!empty($data['description']))
+    if (isset($data['description']))
     {
         update_description($conn, $userId, $data['description']);
     }
 
-    if (!empty($data['age']))
+    if (isset($data['age']))
     {
         update_age($conn, $userId, $data['age']);
     }
 
-    if (!empty($data['sex']))
+    if (isset($data['sex']))
     {
         update_sex($conn, $userId, $data['sex']);
     }
 
-    if (!empty($data['photo']))
+    if (isset($_FILES["photo"]))
     {
         update_photo($conn, $userId);
     }
@@ -45,7 +48,7 @@ function update_description($conn, $id, $description)
 {
     $query = 'UPDATE users SET description = :description WHERE id = :id';
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':name', $description);
+    $stmt->bindParam(':description', $description);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
 }
@@ -66,9 +69,11 @@ function update_age($conn, $id, $age)
 
 function update_sex($conn, $id, $sex)
 {
-    if ($sex != 'null') {
+    $sexes_array = ['male', 'female'];
+    if (!in_array($sex, $sexes_array)) {
         return;
     }
+
     $query = 'UPDATE users SET sex = :sex WHERE id = :id';
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':sex', $sex);
@@ -77,18 +82,13 @@ function update_sex($conn, $id, $sex)
 }
 
 function update_photo($conn, $id) {
-    /*
-    if (isset($_FILES["photo"]) && $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
+    if ($_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES["photo"]["tmp_name"];
         $imageData = file_get_contents($fileTmpPath);
-        if (!savePhoto($imageData)) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Error inserting photo']);
-        }
+        savePhoto($conn, $imageData, $id);
         unlink($fileTmpPath);
     } else {
         http_response_code(404);
         echo json_encode(['error' => 'File download error']);
     }
-    */
 }

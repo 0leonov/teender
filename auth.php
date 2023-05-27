@@ -62,6 +62,9 @@ function refreshAccessToken($refreshToken): ?string
 
 function decodeToken($token): ?stdClass
 {
+    if (empty($token)) {
+        return null;
+    }
     try {
         return JWT::decode($token, new Key(Config::$JWT_key, 'HS512'));
     }
@@ -78,7 +81,11 @@ function getRefreshToken($user_id)
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_ASSOC)['token'];
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$result) {
+        return null;
+    }
+    return $result['token'];
 }
 
 function deleteRefreshToken($refresh_token)
