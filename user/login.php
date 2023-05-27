@@ -1,49 +1,47 @@
 <?php
 
-$allowedOrigins = array(
-    'http://localhost:5173',
-    'http://localhost:5173/login'
-);
+require_once 'validations.php';
 
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+function login($conn, $data)
+{
+    $username = $data['username'];
+    $password = $data['password'];
 
-if (in_array($origin, $allowedOrigins)) {
-    header('Access-Control-Allow-Origin: ' . $origin);
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-}
-
-include 'validations.php';
-include 'functions.php';
-include '../auth/auth.php';
-include '../DbConnect.php';
-
-$db = new DbConnect;
-$conn = $db->connect();
-
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user = json_decode(file_get_contents('php://input'));
-
-    if (!usernameExists($conn, $user->username)) {
-        $response = json_encode(['status' => 400, 'error' => 'Incorrect username and/or password']);
-        echo $response;
+    if (!usernameExists($conn, $username))
+    {
+        http_response_code(400);
+        echo json_encode(['error' => 'Incorrect username and/or password']);
         exit;
     }
 
-    $sql = "SELECT * FROM users u WHERE u.username=:username && u.password=:password";
+    $sql = 'SELECT * FROM users u WHERE u.username=:username && u.password=:password';
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':username', $user->username);
-    $stmt->bindParam(':password', $user->password);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':password', $password);
     $stmt->execute();
 
-    if(!!$stmt->fetch(PDO::FETCH_ASSOC)) {
-        $user_id = get_id_by_username($conn, $user->username);
-        [$token, $expires_in] = createAccessToken($user_id);
-        $refresh_token = createRefreshToken($user_id);
+    if(!!$stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        $user_id = get_id_by_username($conn, $username);
+        $token = createAccessToken($user_id);
+        createRefreshToken($user_id);
         $response = json_encode(['accessToken' => $token]);
     } else {
+        http_response_code(400);
         $response = json_encode(['error' => 'Incorrect username and/or password']);
     }
     echo $response;
+}
+
+function get_id_by_username($conn, $username) {
+    $sql = "SELECT id FROM users WHERE username = :username";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':username', $username);
+
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+    } else {
+        return null;
+    }
 }
