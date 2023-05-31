@@ -7,6 +7,8 @@ require 'user/insert.php';
 require 'user/login.php';
 require 'user/signOut.php';
 require 'user/update.php';
+require 'user/get.php';
+require 'user/getCouple.php';
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -26,6 +28,10 @@ $conn = $db->connect();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+if (empty($_GET['q'])) {
+    http_response_code(400);
+}
+
 $q = $_GET['q'];
 $params = explode('/', $q);
 
@@ -39,13 +45,16 @@ switch ($method)
 {
     case 'POST':
 
-        if ($type == 'insert') {
+        $data = $_POST;
+        if (empty($data)) {
             $data = json_decode(file_get_contents('php://input'), true);
+        }
+
+        if ($type == 'insert') {
             insert($conn, $data);
         }
 
         if ($type == 'login') {
-            $data = json_decode(file_get_contents('php://input'), true);
             login($conn, $data);
         }
 
@@ -55,18 +64,29 @@ switch ($method)
         }
 
         if ($type == 'update') {
-            $data = $_POST;
             check_access_token();
             update($conn, getAccessToken(), $data);
         }
         break;
 
     case 'GET':
-        // Логика обработки GET запроса
+
+        if ($type == 'get') {
+            check_access_token();
+            get($conn, getAccessToken());
+        }
+
+        if ($type == 'getCouple') {
+            check_access_token();
+            getCouple($conn, getAccessToken());
+        }
+
         break;
 
+
     default:
-        // Обработка неизвестного метода запроса
+        http_response_code(400);
+        echo json_encode(['error' => 'Wrong method']);
         break;
 }
 

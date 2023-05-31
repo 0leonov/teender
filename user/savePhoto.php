@@ -1,12 +1,11 @@
 <?php
 
-function savePhoto($conn, $imageData, $userId)
+function savePhoto($conn, $imageData)
 {
     {
-        $statement = $conn->prepare("INSERT INTO photos (image_data, user_id) VALUES (?, ?)");
+        $statement = $conn->prepare("INSERT INTO photos (image_data) VALUES (?)");
 
         $statement->bindParam(1, $imageData, PDO::PARAM_LOB);
-        $statement->bindParam(2, $userId, PDO::PARAM_INT);
 
         $statement->execute();
 

@@ -82,10 +82,20 @@ function update_sex($conn, $id, $sex)
 }
 
 function update_photo($conn, $id) {
+    upload_photo($conn);
+    $photoId = $conn->lastInsertId();
+    $query = 'UPDATE users SET photo = :photo WHERE id = :id';
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':photo', $photoId);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+}
+
+function upload_photo($conn) {
     if ($_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES["photo"]["tmp_name"];
         $imageData = file_get_contents($fileTmpPath);
-        savePhoto($conn, $imageData, $id);
+        savePhoto($conn, $imageData);
         unlink($fileTmpPath);
     } else {
         http_response_code(404);
