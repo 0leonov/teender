@@ -2,7 +2,6 @@
 
 $allowedOrigins = array(
     'http://localhost:5173',
-    'http://localhost:5173/',
 );
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -50,7 +49,14 @@ function isUserMale($conn, $userId): bool
 
 function getRandomWoman($conn)
 {
-    $query = "SELECT id, name, description, age, photo FROM users WHERE sex = 'female' ORDER BY RAND() LIMIT 1";
+    $query = "SELECT id, name, description, age, photo
+            FROM users
+            WHERE sex = 'female'
+            AND name IS NOT NULL
+            AND description IS NOT NULL
+            AND age IS NOT NULL
+            AND photo IS NOT NULL
+            ORDER BY RAND() LIMIT 1";
 
     $result = $conn->query($query);
 
@@ -59,7 +65,14 @@ function getRandomWoman($conn)
 
 function getRandomMan($conn)
 {
-    $query = "SELECT id, name, description, age, photo FROM users WHERE sex = 'male' ORDER BY RAND() LIMIT 1";
+    $query = "SELECT id, name, description, age, photo
+            FROM users
+            WHERE sex = 'male'
+            AND name IS NOT NULL
+            AND description IS NOT NULL
+            AND age IS NOT NULL
+            AND photo IS NOT NULL
+            ORDER BY RAND() LIMIT 1";
 
     $result = $conn->query($query);
 

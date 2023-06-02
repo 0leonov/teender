@@ -23,8 +23,8 @@ function login($conn, $data)
 
     if (!usernameExists($conn, $username))
     {
-        http_response_code(400);
-        echo json_encode(['error' => 'Incorrect username and/or password']);
+        http_response_code(403);
+        echo json_encode(['error' => 'Incorrect username or password']);
         exit;
     }
 
@@ -41,8 +41,8 @@ function login($conn, $data)
         createRefreshToken($user_id);
         $response = json_encode(['accessToken' => $token]);
     } else {
-        http_response_code(400);
-        $response = json_encode(['error' => 'Incorrect username and/or password']);
+        http_response_code(403);
+        $response = json_encode(['error' => 'Incorrect username or password']);
     }
     echo $response;
 }
