@@ -1,6 +1,7 @@
 <?php
 
 require_once 'validations.php';
+
 $allowedOrigins = array(
     'http://localhost:5173',
     'http://localhost:5173/login'
