@@ -28,14 +28,15 @@ function get($conn, $accessToken)
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $photo = getPhoto($conn, $id);
-
-    $result['photo'] = $photo;
-
-    if ($result) {
-        echo json_encode($result);
-    } else {
+    if (!$result) {
         echo json_encode(array('error' => 'User not found'));
+        exit;
     }
 
+    $photo = getPhoto($conn, $id);
+    if (!empty($photo)) {
+        $result['photo'] = $photo;
+    }
+
+    echo json_encode($result);
 }

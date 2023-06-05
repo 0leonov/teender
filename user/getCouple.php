@@ -67,8 +67,14 @@ function getRandomUser($conn, $sex)
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if (!$result) {
+        return;
+    }
+
     $photo = getPhoto($conn, $result['id']);
-    $result['photo'] = $photo;
+    if (!empty($photo)) {
+        $result['photo'] = $photo;
+    }
 
     return $result;
 }

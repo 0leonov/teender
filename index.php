@@ -9,7 +9,7 @@ require 'user/signOut.php';
 require 'user/update.php';
 require 'user/get.php';
 require 'user/getCouple.php';
-require 'like/like.php';
+require 'user/like.php';
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
