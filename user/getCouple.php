@@ -15,16 +15,19 @@ if (in_array($origin, $allowedOrigins)) {
 
 function getCouple($conn, $accessToken) {
     $userId = getUserIdFromToken($accessToken);
-    if(isUserMale($conn, $userId)) {
-        $woman = getRandomWoman($conn);
+
+    if(isUserMale($conn, $userId))
+    {
+        $woman = getRandomUser($conn, 'female');
         if($woman) {
             echo json_encode($woman);
         } else {
             echo 'Woman not found';
         }
     }
-    else {
-        $man = getRandomMan($conn);
+    else
+    {
+        $man = getRandomUser($conn, 'male');
         if($man) {
             echo json_encode($man);
         } else {
@@ -47,34 +50,25 @@ function isUserMale($conn, $userId): bool
     return false;
 }
 
-function getRandomWoman($conn)
+function getRandomUser($conn, $sex)
 {
     $query = "SELECT id, name, description, age, photo
             FROM users
-            WHERE sex = 'female'
+            WHERE sex = :sex
             AND name IS NOT NULL
             AND description IS NOT NULL
             AND age IS NOT NULL
             AND photo IS NOT NULL
             ORDER BY RAND() LIMIT 1";
 
-    $result = $conn->query($query);
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':sex', $sex);
+    $stmt->execute();
 
-    return $result->fetch(PDO::FETCH_ASSOC);
-}
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-function getRandomMan($conn)
-{
-    $query = "SELECT id, name, description, age, photo
-            FROM users
-            WHERE sex = 'male'
-            AND name IS NOT NULL
-            AND description IS NOT NULL
-            AND age IS NOT NULL
-            AND photo IS NOT NULL
-            ORDER BY RAND() LIMIT 1";
+    $photo = getPhoto($conn, $result['id']);
+    $result['photo'] = $photo;
 
-    $result = $conn->query($query);
-
-    return $result->fetch(PDO::FETCH_ASSOC);
+    return $result;
 }

@@ -17,7 +17,6 @@ if (in_array($origin, $allowedOrigins)) {
 
 function update($conn, $accessToken, $data)
 {
-
     $userId = getUserIdFromToken($accessToken);
 
     if (isset($data['name']))

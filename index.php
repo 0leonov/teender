@@ -9,6 +9,7 @@ require 'user/signOut.php';
 require 'user/update.php';
 require 'user/get.php';
 require 'user/getCouple.php';
+require 'like/like.php';
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -66,6 +67,11 @@ switch ($method)
         if ($type == 'update') {
             check_access_token();
             update($conn, getAccessToken(), $data);
+        }
+
+        if ($type == 'like') {
+            check_access_token();
+            like($conn, getAccessToken(), $data);
         }
         break;
 
