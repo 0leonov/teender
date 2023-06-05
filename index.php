@@ -9,8 +9,11 @@ require 'user/signOut.php';
 require 'user/update.php';
 require 'user/get.php';
 require 'user/getCouple.php';
+require 'user/getDirect.php';
+require 'user/functions.php';
 require 'relationships/like.php';
 require 'relationships/ignore.php';
+require 'relationships/functions.php';
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -91,6 +94,11 @@ switch ($method)
         if ($type == 'getCouple') {
             check_access_token();
             getCouple($conn, getAccessToken());
+        }
+
+        if ($type == 'getDirect') {
+            check_access_token();
+            getDirect($conn, getAccessToken());
         }
 
         break;

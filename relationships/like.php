@@ -13,8 +13,6 @@ if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Headers: Content-Type, Authorization ");
 }
 
-require_once 'functions.php';
-
 function like($conn, $accessToken, $data)
 {
     if (empty($data['id']))

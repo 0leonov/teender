@@ -18,21 +18,11 @@ function getCouple($conn, $accessToken) {
 
     if(isUserMale($conn, $userId))
     {
-        $woman = getRandomUser($conn, 'female');
-        if($woman) {
-            echo json_encode($woman);
-        } else {
-            echo 'Woman not found';
-        }
+        getRandomUser($conn, 'female');
     }
     else
     {
-        $man = getRandomUser($conn, 'male');
-        if($man) {
-            echo json_encode($man);
-        } else {
-            echo 'Man not found';
-        }
+        getRandomUser($conn, 'male');
     }
 }
 
@@ -52,7 +42,7 @@ function isUserMale($conn, $userId): bool
 
 function getRandomUser($conn, $sex)
 {
-    $query = "SELECT id, name, description, age, photo
+    $query = "SELECT id, name, description, age
             FROM users
             WHERE sex = :sex
             AND name IS NOT NULL
@@ -68,7 +58,8 @@ function getRandomUser($conn, $sex)
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$result) {
-        return;
+        http_response_code(404);
+        return 'Not found';
     }
 
     $photo = getPhoto($conn, $result['id']);
@@ -76,5 +67,5 @@ function getRandomUser($conn, $sex)
         $result['photo'] = $photo;
     }
 
-    return $result;
+    echo json_encode($result);
 }
