@@ -9,7 +9,8 @@ require 'user/signOut.php';
 require 'user/update.php';
 require 'user/get.php';
 require 'user/getCouple.php';
-require 'user/like.php';
+require 'relationships/like.php';
+require 'relationships/ignore.php';
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -72,6 +73,11 @@ switch ($method)
         if ($type == 'like') {
             check_access_token();
             like($conn, getAccessToken(), $data);
+        }
+
+        if ($type == 'ignore') {
+            check_access_token();
+            ignore($conn, getAccessToken(), $data);
         }
         break;
 
