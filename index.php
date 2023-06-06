@@ -1,19 +1,12 @@
 <?php
 
 require 'DbConnect.php';
+
+require 'src/autoload.php';
 require 'auth.php';
 require 'functions.php';
-require 'user/insert.php';
-require 'user/login.php';
-require 'user/signOut.php';
-require 'user/update.php';
-require 'user/get.php';
-require 'user/getCouple.php';
-require 'user/getDirect.php';
-require 'user/functions.php';
-require 'relationships/like.php';
-require 'relationships/ignore.php';
-require 'relationships/functions.php';
+
+autoloader();
 
 header('Access-Control-Allow-Origin: http://localhost:5173');
 header('Access-Control-Allow-Credentials: true');
@@ -99,6 +92,11 @@ switch ($method)
         if ($type == 'getDirect') {
             check_access_token();
             getDirect($conn, getAccessToken());
+        }
+
+        if ($type == 'getMatches') {
+            check_access_token();
+            getMatches($conn, getAccessToken());
         }
 
         break;

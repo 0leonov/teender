@@ -25,7 +25,9 @@ function like($conn, $accessToken, $data)
     $seen = 0;
     $liked_at = date("Y-m-d H:i:s");
 
-    if (isLikeExists($conn, $from_user_id, $to_user_id)) {
+    if (isLikeExists($conn, $from_user_id, $to_user_id))
+    {
+        markLikeAsNotSeen($conn, $from_user_id, $to_user_id);
         exit;
     }
 
@@ -48,9 +50,10 @@ function like($conn, $accessToken, $data)
 
         if ($count > 0)
         {
-            // Match!
             markLikeAsSeen($conn, $from_user_id, $to_user_id);
             markLikeAsSeen($conn, $to_user_id, $from_user_id);
+
+            insertMatch($conn, $from_user_id, $to_user_id);
             echo "Match!";
         }
         else
