@@ -8,14 +8,14 @@ import Loading from '@pages/Loading'
 import instance from '@http/index'
 
 const Direct = () => {
-  let toggle = true
+  const [toggle, setToggle] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [data, setData] = useState({})
 
   const refresh = () => {
-    toggle = !toggle
+    setToggle(prev => !prev)
   }
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Direct = () => {
 
     Promise.all([instance.get('/users/getDirect'), instance.get('/users/getMatches')])
       .then(response => setData([response[0].data, response[1].data]))
-      .catch(error => console.log(error))
+      .catch(error => setError(error))
       .finally(() => setIsLoading(false))
   }, [toggle])
 
@@ -44,12 +44,12 @@ const Direct = () => {
     <main className='flex flex-col gap-8'>
       <div>
         <h2 className='text-2xl font-bold mb-4'>You liked</h2>
-        {data[0] !== '    ' ? <Liked {...data[0][0]} handleIgnore={handleIgnore} handleLike={handleLike} /> : <div>Not Found</div>}
+        <div className='flex flex-col gap-2'>{data[0] !== '    ' ? data[0].map(data => <Liked {...data} handleIgnore={handleIgnore} handleLike={handleLike} />) : <div>Not Found</div>}</div>
       </div>
 
       <div>
         <h2 className='text-2xl font-bold mb-4'>Matches</h2>
-        {data[1] !== '    ' ? <Match {...data[1][0]} /> : <div>Not Found</div>}
+        <div className='flex flex-col gap-2'>{data[1] !== '    ' ? data[1].map(data => <Match {...data} />) : <div>Not Found</div>}</div>
       </div>
     </main>
   )
