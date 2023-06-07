@@ -14,7 +14,6 @@ export default defineConfig({
       '@http': path.resolve(__dirname, './src/http'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
       '@pages': path.resolve(__dirname, './src/pages'),
-      '@services': path.resolve(__dirname, './src/services'),
       '@slices': path.resolve(__dirname, './src/store/slices'),
     },
   },

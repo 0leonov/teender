@@ -1,24 +1,22 @@
 import { Link } from 'react-router-dom'
 
-const AgreeCheckbox = ({ name, rules, register, error }) => {
+const TermsCheckbox = ({ id, error, register, rules }) => {
   return (
-    <div className='flex gap-2'>
-      <input type='checkbox' className={`checkbox ${error ? 'checkbox-error' : 'checkbox-primary'}`} {...register(name, rules)} />
+    <div className='flex items-center gap-2'>
+      <input type='checkbox' className={`checkbox ${error ? 'checkbox-error' : 'checkbox-primary'}`} {...register(id, rules)} />
 
-      <span className='label-text'>
-        I agree with the{' '}
-        <Link to='terms' className='link link-primary'>
+      <p className='label-text'>
+        <span>I agree with the </span>
+        <Link to='/terms' className='link link-primary link-hover'>
           Terms
-        </Link>{' '}
-        and{' '}
-        <Link to='terms' className='link link-primary'>
-          {' '}
+        </Link>
+        <span> and </span>
+        <Link to='/terms' className='link link-primary link-hover'>
           Conditions
         </Link>
-        .
-      </span>
+      </p>
     </div>
   )
 }
 
-export default AgreeCheckbox
+export default TermsCheckbox

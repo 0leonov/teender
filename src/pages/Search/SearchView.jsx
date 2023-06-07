@@ -2,12 +2,12 @@ import Avatar from '@components/Avatar'
 import Next from '@components/icons/Next'
 import Like from '@components/icons/Like'
 
-const MainView = ({ photo, age, description, name, handleNext, handleLike, isLoading }) => {
+const SearchView = ({ photo, age, description, name, handleNext, handleLike, isLoading }) => {
   return (
     <div className='w-full flex flex-col gap-8'>
       <div className='flex gap-4'>
-        <div className='w-32'>
-          <Avatar url={photo} />
+        <div className='w-32 h-32'>
+          <Avatar photo={photo} />
         </div>
 
         <div className='flex flex-col gap-2'>
@@ -34,4 +34,4 @@ const MainView = ({ photo, age, description, name, handleNext, handleLike, isLoa
   )
 }
 
-export default MainView
+export default SearchView

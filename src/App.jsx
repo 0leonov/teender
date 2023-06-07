@@ -1,54 +1,45 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-
-import ProtectedRoute from '@routes/ProtectedRoute'
 
 import AuthRoot from '@layouts/AuthRoot'
 import MainRoot from '@layouts/MainRoot'
 
-import Signup from '@pages/Signup'
-import Login from '@pages/Login'
+import SignupContainer from '@pages/Signup/SignupContainer'
+import Login from '@pages/Login/LoginContainer'
 import NotFound from '@pages/NotFound'
 import Profile from '@pages/Profile'
-import Main from '@pages/Main'
+import SearchContainer from '@pages/Search/SearchContainer'
 import Direct from '@pages/Direct'
 import ProfileEdit from '@pages/ProfileEdit'
-import Loading from '@pages/Loading'
-
-import { useFetchUser } from '@hooks/useFetchUser'
 
 import { setTheme } from '@slices/themeSlice'
+import Terms from '@pages/Terms'
 
 const App = () => {
-  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setTheme(localStorage.getItem('theme') || 'light'))
+    const theme = setTheme(localStorage.getItem('theme') || 'light')
+    dispatch(theme)
   }, [dispatch])
-
-  const { error, isLoaded } = useFetchUser()
-
-  if (error) return error
-  
-  if (!isLoaded) return <Loading />
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute allowed={!isAuthenticated} fallbackPath='/' element={<AuthRoot />} />}>
+        <Route element={<AuthRoot />}>
           <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/signup' element={<SignupContainer />} />
         </Route>
 
-        <Route element={<ProtectedRoute allowed={isAuthenticated} fallbackPath='/login' element={<MainRoot />} />}>
-          <Route path='/' element={<Main />} />
+        <Route element={<MainRoot />}>
+          <Route path='/' element={<SearchContainer />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/direct' element={<Direct />} />
         </Route>
+
+        <Route path='/terms' element={<Terms />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>

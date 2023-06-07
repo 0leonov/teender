@@ -2,26 +2,26 @@ import { useState } from 'react'
 
 import instance from '@http/index'
 
-export const usePost = (url, onSuccess) => {
+const usePost = (url, onSuccess) => {
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [isLoaded, setLoaded] = useState(true)
 
-  const handleCall = payload => {
-    setLoaded(false)
+  const handleCall = async request => {
+    setIsLoading(true)
 
-    instance
-      .post(url, payload)
-      .then(response => {
-        if (response.data.error) {
-          setError(response.data.error)
-          return
-        }
-
-        onSuccess(response.data)
-      })
-      .catch(error => setError(error.message))
-      .finally(() => setLoaded(true))
+    try {
+      const response = await instance.post(url, request)
+      setError(null)
+      onSuccess(response.data)
+    } catch (error) {
+      const expectedError = error.response.data.error
+      setError(expectedError ? expectedError : error.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  return { error, isLoaded, handleCall }
+  return { isLoading, error, handleCall }
 }
+
+export default usePost

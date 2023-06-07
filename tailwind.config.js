@@ -3,9 +3,10 @@ module.exports = {
   content: ['./src/**/*.{js,jsx}'],
   theme: {
     extend: {},
+    fontFamily: {
+      Inter: ['Inter', 'sans-serif'],
+    },
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
-
   daisyui: {
     themes: [
       'light',
@@ -39,4 +40,5 @@ module.exports = {
       'winter',
     ],
   },
+  plugins: [require('daisyui'), require('@tailwindcss/typography')],
 }

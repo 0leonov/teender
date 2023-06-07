@@ -1,24 +1,23 @@
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-import Loading from '@pages/Loading'
-
 import { useFetch } from '@hooks/useFetch'
-import MainView from '@pages/Main/MainView'
 
-const MainContainer = () => {
+import SearchView from '@pages/Search/SearchView'
+
+import instance from '@http'
+
+const SearchContainer = () => {
   const navigate = useNavigate()
 
   const isProfileSetupCompleted = useSelector(state => state.user.isProfileSetupCompleted)
 
   useEffect(() => {
-    if (!isProfileSetupCompleted) {
-      navigate('/profile/edit')
-    }
+    if (!isProfileSetupCompleted) navigate('/profile/edit')
   }, [isProfileSetupCompleted])
 
-  const { data, isLoading, error, refresh } = useFetch('user/get/getCouple/')
+  const { data, isLoading, error, refresh } = useFetch('user/getCouple')
 
   if (error) return error
 
@@ -26,7 +25,12 @@ const MainContainer = () => {
     refresh()
   }
 
-  return <MainView {...data} handleNext={handleNext} handleLike={handleNext} isLoading={isLoading} />
+  const handleLike = () => {
+    instance.post('/users/like', { id: data.id })
+    handleNext()
+  }
+
+  return <SearchView {...data} handleNext={handleNext} handleLike={handleLike} isLoading={isLoading} />
 }
 
-export default MainContainer
+export default SearchContainer

@@ -1,18 +1,15 @@
-const TextInput = ({ name, label, rules, register, error, type, ...props }) => {
-
+const TextInput = ({ label, error, id, register, rules, type, ...props }) => {
   return (
-    <div className='form-control'>
-      <label htmlFor={name} className='label label-text'>
-        {label}
+    <div>
+      <label className='label' htmlFor={id}>
+        <span className='label-text'>{label}</span>
       </label>
 
-      <input {...register(name, rules)} type={type} id={name}
-             className={`input input-bordered w-full ${error?.message ? ' input-error' : ''}`} {...props} />
+      <input className={`input input-bordered w-full ${error && 'input-error'}`} type={type} id={id} {...register(id, rules)} {...props} />
 
-      {error?.message && <label htmlFor={name} className='label label-text-alt text-error'>
-        {error.message}
-      </label>}
-
+      <label className={`label ${!error && 'hidden'}`}>
+        <span className='label-text-alt text-error'>{error}</span>
+      </label>
     </div>
   )
 }

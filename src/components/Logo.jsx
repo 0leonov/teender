@@ -1,8 +1,8 @@
 const Logo = () => {
   return (
-    <div>
-          
-    </div>
+    <p>
+      <span className='text-primary font-bold'>Teen</span>der
+    </p>
   )
 }
 

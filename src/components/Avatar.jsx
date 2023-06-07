@@ -1,7 +1,7 @@
-const Avatar = ({ url }) => {
+const Avatar = ({ photo }) => {
   return (
-    <div className={'w-32 h-32 avatar rounded-full overflow-hidden'}>
-      <img src={url} alt='Avatar' />
+    <div className='w-full h-full avatar rounded-full overflow-hidden'>
+      <img src={`data:image/png;base64,${photo}`} alt='avatar' />
     </div>
   )
 }

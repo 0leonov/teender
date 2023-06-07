@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { availableThemes } from '@slices/themeSlice'
 import { setTheme } from '@slices/themeSlice'
@@ -11,7 +12,10 @@ const SettingsModal = () => {
 
   const activeTheme = useSelector(state => state.theme.value)
 
+  const navigate = useNavigate()
+
   const handleLogOut = () => {
+    navigate('/login')
     dispatch(removeUser())
     localStorage.removeItem('token')
   }
@@ -24,11 +28,16 @@ const SettingsModal = () => {
     <label htmlFor='settings-modal' className='modal'>
       <label className='modal-box flex flex-col gap-4'>
         <div className='flex flex-col gap-2'>
-          <label className='label-text font-bold' htmlFor=''>Theme</label>
+          <h1 className='text-2xl font-bold'>Settings</h1>
 
-          <select className='select select-bordered w-full' value={activeTheme}
-                  onChange={e => handleThemeSelect(e.target.value)}>
-            {availableThemes.map(theme => <option key={theme} value={theme}>{theme}</option>)}
+          <h2 className='label-text'>Theme</h2>
+
+          <select className='select select-bordered w-full' value={activeTheme} onChange={e => handleThemeSelect(e.target.value)}>
+            {availableThemes.map(theme => (
+              <option key={theme} value={theme}>
+                {theme}
+              </option>
+            ))}
           </select>
         </div>
 

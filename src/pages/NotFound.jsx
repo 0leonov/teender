@@ -9,7 +9,7 @@ const NotFound = () => {
 
       <p className='mb-16'>Sorry, we couldn’t find the page you’re looking for.</p>
 
-      <Link to='/' className='btn btn-primary w-fit'>
+      <Link to='/' className='btn btn-primary no-underline'>
         Go back home
       </Link>
     </main>
