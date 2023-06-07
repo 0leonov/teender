@@ -1,27 +1,19 @@
+import ProfileView from '@pages/Profile/ProfileView'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-
-import { useFetchUser } from '@hooks/useFetchUser'
-
-import Settings from '@components/icons/Settings'
 import Avatar from '@components/Avatar'
-import AvatarPlaceholder from '@components/AvatarPlaceholder'
-import CommonContainer from '@components/containers/CommonContainer'
+import Settings from '@components/icons/Settings'
 import SettingsModal from '@components/SettingsModal'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
-  const { username, name, age, photo, description } = useSelector(state => state.user.info)
-
-  const { error, isLoaded } = useFetchUser()
-
-  if (error) return error
-
-  if (!isLoaded) return
+  const { name, age, photo, description } = useSelector(state => state.user.info)
 
   return (
-    <CommonContainer className='gap-8'>
-      <header className='h-32 px-4 flex justify-between items-end box-content pb-8 border-b'>
-        {photo ? <Avatar url={photo} /> : <AvatarPlaceholder placeholder={username[0]} />}
+    <div className='w-full flex flex-col gap-4'>
+      <header className='flex justify-between items-end'>
+        <div className='w-32 h-32'>
+          <Avatar photo={photo} />
+        </div>
 
         <div className='flex gap-2'>
           <label className='btn btn-square btn-ghost' htmlFor='settings-modal'>
@@ -38,20 +30,14 @@ const Profile = () => {
         </div>
       </header>
 
-      <div className='px-4'>
-        <section className='flex items-center gap-4'>
-          <div className='flex flex-col justify-between gap-4'>
-            <h1 className='text-2xl font-bold break-all'>
-              {name}, {age}
-            </h1>
-          </div>
-        </section>
+      <div className='flex flex-col gap-2'>
+        <h1 className='text-2xl font-bold break-words'>
+          {name}, {age}
+        </h1>
 
-        <section>
-          <p className='break-words'>{description}</p>
-        </section>
+        <p className='break-words outline-noneщаа'>{description}</p>
       </div>
-    </CommonContainer>
+    </div>
   )
 }
 

@@ -10,7 +10,7 @@ import CommonContainer from '@components/containers/CommonContainer'
 import LinkBlock from '@components/auth/LinkBlock'
 import AgreeCheckbox from '@components/auth/AgreeCheckbox'
 
-import { usePost } from '@hooks/usePost'
+import usePost from '@hooks/usePost'
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -82,36 +82,5 @@ const Signup = () => {
       },
     },
   ]
-
-  return (
-    <main className='p-6 flex place-items-center justify-center gap-24'>
-      <div className='py-6 px-4 max-w-[360px] flex-col gap-4 hidden lg:flex'>
-        <h1 className='font-bold text-2xl'>Teender</h1>
-        <p>
-          This is a dating site, where finding your perfect match is our top priority! Our platform is designed to make
-          it easy and fun for singles to connect and potentially find a long-term partner.
-        </p>
-        <b>Join Teender today and start your journey towards finding love! 💕</b>
-      </div>
-
-      <CommonContainer className='max-w-[400px]'>
-        <HeaderText content='Sign up' />
-
-        {error && <ErrorAlert text={error} />}
-
-        <BorderedContainer onSubmit={handleSubmit(handleCall)}>
-          {inputProps.map(textInputField => (
-            <TextInput key={textInputField.name} {...textInputField} register={register} />
-          ))}
-
-          <AgreeCheckbox register={register} name='Terms' rules={{ required: true }} error={errors.Terms} />
-
-          <PrimaryButton text='Sign up' isLoading={!isLoaded} />
-        </BorderedContainer>
-
-        <LinkBlock text='Already have an account?' linkText='Log in' linkTo='/login' />
-      </CommonContainer>
-    </main>
-  )
 }
 export default Signup
